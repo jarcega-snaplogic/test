@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategy Development Framework</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --background-color: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-color: #1e293b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.5;
+            color: var(--text-color);
+            background-color: var(--background-color);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .user-selector {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .user-selector select {
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tab {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .tab.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .number-circle {
+            width: 2rem;
+            height: 2rem;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .input-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.25rem;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .array-input-group {
+            margin-bottom: 1rem;
+        }
+
+        .array-input-item {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .array-input-item input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.25rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.25rem;
+            background: white;
+            cursor: pointer;
+            font-size: 0.875rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn:hover {
+            background: var(--background-color);
+        }
+
+        .btn-icon {
+            padding: 0.5rem;
+            width: 2.5rem;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .alert {
+            background: #e0f2fe;
+            border: 1px solid #bae6fd;
+            color: #0369a1;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Strategy Development Framework</h1>
+            <div class="user-selector">
+                <span>Current user:</span>
+                <select id="userSelect">
+                    <option value="Nick">Nick</option>
+                    <option value="Jocelyn">Jocelyn</option>
+                    <option value="Daryl">Daryl</option>
+                    <option value="Pascal">Pascal</option>
+                    <option value="Sebastian">Sebastian</option>
+                    <option value="Julie">Julie</option>
+                    <option value="Steve">Steve</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="alert">
+            Currently entering responses as <span id="currentUser">Nick</span>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" data-tab="aspirations">Aspirations</button>
+            <button class="tab" data-tab="playingField">Playing Field</button>
+        </div>
+
+        <div id="aspirations" class="tab-content active">
+            <div class="card">
+                <div class="card-title">
+                    <div class="number-circle">1</div>
+                    What are our aspirations and goals?
+                </div>
+                <div id="objectivesContainer">
+                    <!-- Objectives will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <div id="playingField" class="tab-content">
+            <div class="card">
+                <div class="card-title">
+                    <div class="number-circle">2</div>
+                    Where will we play?
+                </div>
+                <div class="array-input-group">
+                    <label>Geographic Markets</label>
+                    <div id="geosContainer"></div>
+                    <button class="btn" onclick="addArrayItem('geos')">+ Add Geographic Market</button>
+                </div>
+                <div class="array-input-group">
+                    <label>Product Categories & Segments</label>
+                    <div id="segmentsContainer"></div>
+                    <button class="btn" onclick="addArrayItem('segments')">+ Add Segment</button>
+                </div>
+                <div class="array-input-group">
+                    <label>Partners</label>
+                    <div id="partnersContainer"></div>
+                    <button class="btn" onclick="addArrayItem('partners')">+ Add Partner</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const objectives = [
+            "Revenue growth",
+            "Pipeline growth",
+            "Scale through partners",
+            "Great place to work",
+            "Lead Generative Integration"
+        ];
+
+        const users = ["Nick", "Jocelyn", "Daryl", "Pascal", "Sebastian", "Julie", "Steve"];
+
+        let currentUser = "Nick";
+        let userResponses = {};
+
+        // Initialize user responses
+        users.forEach(user => {
+            userResponses[user] = {
+                aspirations: {
+                    objectives: objectives.reduce((acc, obj) => {
+                        acc[obj] = "";
+                        return acc;
+                    }, {})
+                },
+                playingField: {
+                    geos: [""],
+                    segments: [""],
+                    partners: [""]
+                }
+            };
+        });
+
+        // Initialize objectives
+        function initializeObjectives() {
+            const container = document.getElementById('objectivesContainer');
+            container.innerHTML = objectives.map(objective => `
+                <div class="input-group">
+                    <label>${objective}</label>
+                    <textarea 
+                        onchange="handleObjectiveChange('${objective}', this.value)"
+                    >${userResponses[currentUser].aspirations.objectives[objective]}</textarea>
+                </div>
+            `).join('');
+        }
+
+        // Initialize array inputs
+        function initializeArrayInputs() {
+            ['geos', 'segments', 'partners'].forEach(field => {
+                renderArrayInputs(field);
+            });
+        }
+
+        function renderArrayInputs(field) {
+            const container = document.getElementById(`${field}Container`);
+            container.innerHTML = userResponses[currentUser].playingField[field].map((value, index) => `
+                <div class="array-input-item">
+                    <input 
+                        type="text" 
+                        value="${value}"
+                        onchange="handleArrayChange('${field}', ${index}, this.value)"
+                    >
+                    <button class="btn btn-icon" onclick="removeArrayItem('${field}', ${index})">-</button>
+                </div>
+            `).join('');
+        }
+
+        function handleObjectiveChange(objective, value) {
+            userResponses[currentUser].aspirations.objectives[objective] = value;
+        }
+
+        function handleArrayChange(field, index, value) {
+            userResponses[currentUser].playingField[field][index] = value;
+        }
+
+        function addArrayItem(field) {
+            userResponses[currentUser].playingField[field].push("");
+            renderArrayInputs(field);
+        }
+
+        function removeArrayItem(field, index) {
+            userResponses[currentUser].playingField[field].splice(index, 1);
+            if (userResponses[currentUser].playingField[field].length === 0) {
+                userResponses[currentUser].playingField[field].push("");
+            }
+            renderArrayInputs(field);
+        }
+
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+            });
+        });
+
+        // User switching
+        document.getElementById('userSelect').addEventListener('change', (e) => {
+            currentUser = e.target.value;
+            document.getElementById('currentUser').textContent = currentUser;
+            initializeObjectives();
+            initializeArrayInputs();
+        });
+
+        // Initial render
+        initializeObjectives();
+        initializeArrayInputs();
+    </script>
+</body>
+</html>
