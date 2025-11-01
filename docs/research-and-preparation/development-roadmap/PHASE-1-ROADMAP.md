@@ -1,10 +1,56 @@
 # Phase 1 Development Roadmap: Vertical Slice
 ## Hybrid Turn-Based RPG - Solarpunk Setting
 
-**Document Version:** 1.0
+**Document Version:** 2.0 (UPDATED: Pragmatic Infrastructure Approach)
 **Last Updated:** 2025-11-01
-**Timeline:** 12-16 weeks
+**Timeline:** 15 weeks (infrastructure integrated into Week 1)
 **Team Size:** Solo developer or 2-3 person team
+**Infrastructure Strategy:** Minimal upfront (3-5 days), expand as needed
+
+---
+
+## **UPDATED: What's New in v2.0 - Pragmatic Infrastructure Approach**
+
+### Key Changes Summary
+
+**Decision Made:** Minimal infrastructure upfront (3-5 days) instead of complete infrastructure (2 weeks)
+
+**Timeline Impact:** Maintains 15 weeks (no delay) - infrastructure built in parallel with gameplay
+
+**Major Updates:**
+
+1. **Week 1 Restructured (M1):**
+   - Days 1-5: Essential data infrastructure (DataLoader, file structure, TypeScript types)
+   - Days 6-10: Phaser setup and core architecture
+   - Gameplay development starts Day 6 (not Week 3)
+
+2. **Infrastructure Decision Points Added:**
+   - Week 7-8: Evaluate if validation needed
+   - Week 11: Evaluate if hot-reload needed
+   - Checklists provided for each decision
+
+3. **New Risk Assessment:**
+   - Risk 0: Technical debt from minimal infrastructure (Medium impact, mitigated)
+   - Risk 0b: Premature optimization avoidance (Success indicator added)
+   - Updated monitoring metrics (complexity <4/10 Month 1)
+
+4. **Updated Success Criteria:**
+   - Added infrastructure-specific metrics
+   - YAGNI principle emphasized
+   - Complexity budget tracking
+
+5. **New Section: Infrastructure Development Timeline**
+   - Phase-by-phase breakdown
+   - Decision point checklists
+   - Monitoring metrics
+   - Comparison table (Original vs. Architect vs. Pragmatic)
+
+**Philosophy:** Convention over configuration. Build patterns, not implementations. Add complexity only when needed.
+
+**Read if you're:**
+- New to the project → Start with [Phase 1 Objectives](#phase-1-objectives)
+- Reviewing infrastructure approach → Read [Milestone 1](#milestone-1-foundation-weeks-1-2) and [Infrastructure Timeline](#updated-infrastructure-development-timeline)
+- Tracking risks → See [Risk Assessment](#risk-assessment)
 
 ---
 
@@ -17,7 +63,8 @@
 5. [Risk Assessment](#risk-assessment)
 6. [Testing Strategy](#testing-strategy)
 7. [Phase 2 Preview](#phase-2-preview)
-8. [Appendix](#appendix)
+8. [**NEW:** Infrastructure Development Timeline](#updated-infrastructure-development-timeline)
+9. [Appendix](#appendix)
 
 ---
 
@@ -73,6 +120,14 @@ A successful Phase 1 vertical slice must:
 4. **Run Smoothly**: 60 FPS on target hardware, load times <3 seconds
 5. **Be Extensible**: Architecture supports adding new cities, characters, and content without major refactoring
 
+**UPDATED: Infrastructure Success Criteria**
+
+6. **Be Data-Driven**: 100% of game content (characters, abilities, quests) defined in JSON, not hardcoded
+7. **Maintain Low Complexity**: Infrastructure code <1000 lines, complexity rating <4/10 in Month 1, <6/10 by end
+8. **Enable Fast Iteration**: Content changes take <1 hour from edit to test
+9. **Support Incremental Enhancement**: Can add validation, hot-reload, schemas without refactoring gameplay code
+10. **Follow YAGNI Principle**: No premature optimization - infrastructure added only when needed
+
 ### Scope Boundaries: What's NOT in Phase 1
 
 **Explicitly Excluded from Phase 1:**
@@ -88,6 +143,15 @@ A successful Phase 1 vertical slice must:
 - Advanced AI behaviors
 - Endgame content/balancing
 
+**UPDATED: Infrastructure Scope (Deferred to Phase 2 or Mid-Phase 1):**
+- Complete JSON Schema definitions (add incrementally Week 7+)
+- Full validation pipeline (add if needed Week 7-8)
+- Hot-reload system (evaluate Week 11, may defer to Phase 2)
+- Content authoring tools (visual editors - Phase 2+)
+- Build-time validation (Phase 2)
+- Asset optimization pipeline (Phase 2)
+- Localization infrastructure (Phase 2+)
+
 **Allowed Placeholders:**
 - Placeholder art (procedural/geometric shapes)
 - Placeholder sound effects (web audio API generated)
@@ -102,72 +166,198 @@ A successful Phase 1 vertical slice must:
 
 | Milestone | Duration | Focus | Key Deliverable |
 |-----------|----------|-------|----------------|
-| M1: Foundation | 2 weeks | Project setup, core architecture | Running game with basic rendering |
+| M1: Foundation | 2 weeks | **UPDATED:** Essential infrastructure (Days 1-5) + Phaser setup (Days 6-10) | Running game with data-driven architecture |
 | M2: Combat Core | 2 weeks | Turn-based battle system | Functional 1v1 combat |
 | M3: Character Systems | 2 weeks | Classes, abilities, progression | 3 playable characters with abilities |
-| M4: Exploration | 2 weeks | City navigation, dialogue | Explorable city with NPCs |
+| M4: Exploration | 2 weeks | City navigation, dialogue + **UPDATED:** Add validation if needed | Explorable city with NPCs |
 | M5: World Map & Integration | 1.5 weeks | World map, scene transitions | Full layer integration |
-| M6: Game Juice & Polish | 2 weeks | Visual effects, animations, feedback | Satisfying combat feel |
+| M6: Game Juice & Polish | 2 weeks | Visual effects, animations + **UPDATED:** Evaluate hot-reload need | Satisfying combat feel |
 | M7: Content & Balance | 2 weeks | Quests, encounters, enemies | Complete playable loop |
 | M8: Testing & Bug Fixes | 1.5 weeks | QA, balance, optimization | Polished vertical slice |
 
-**Total Timeline:** 15 weeks (adjust to 12-16 based on team size)
+**Total Timeline:** 15 weeks (infrastructure integrated, no delay from pragmatic approach)
+
+**UPDATED Note:** The pragmatic infrastructure approach (3-5 days essential infrastructure in Week 1) maintains the original 15-week timeline. Infrastructure enhancements are built in parallel with gameplay development, not sequentially. The architect's 2-week upfront infrastructure proposal would have extended to 17 weeks.
 
 ---
 
 ### Milestone 1: Foundation (Weeks 1-2)
 
-**Goal:** Establish project structure, core architecture, and rendering pipeline
+**Goal:** **UPDATED:** Establish essential data infrastructure (Days 1-5) and core game architecture (Days 6-10)
 
-#### Week 1 Deliverables
+**Infrastructure Strategy:** Minimal, expandable approach - build patterns not implementations
+
+---
+
+#### **UPDATED: Week 1 - Parallel Development Tracks**
+
+**Days 1-5: Essential Infrastructure (Track A - Priority)**
+
+**Goal:** Establish data-driven patterns that enable gameplay development
+
+##### Day 1-2 Deliverables: Data Loading Pattern
 - [ ] Project repository initialized with version control
+- [ ] Basic file structure created
+- [ ] Implement DataLoader class (fetch + cache pattern)
+- [ ] Error handling and logging
+- [ ] Unit tests for DataLoader
+
+**Technical Implementation:**
+```typescript
+// src/utils/DataLoader.ts
+export class DataLoader {
+  private cache: Map<string, any> = new Map();
+
+  async load(category: string, filename: string): Promise<any> {
+    const key = `${category}:${filename}`;
+    if (this.cache.has(key)) return this.cache.get(key);
+
+    const response = await fetch(`./data/${category}/${filename}.json`);
+    const data = await response.json();
+    this.cache.set(key, data);
+    return data;
+  }
+}
+```
+
+##### Day 3 Deliverables: File Structure Convention
+- [ ] Create `/public/data/` directory structure
+- [ ] Define file organization conventions (documented)
+- [ ] Create example JSON files (characters, abilities, enemies)
+- [ ] Document naming conventions and patterns
+
+**File Structure:**
+```
+/public/data/
+├── characters/playable.json
+├── abilities/fighter.json
+├── enemies/common.json
+├── items/ (placeholder - define Week 5-6)
+├── quests/ (placeholder - define Week 7-8)
+└── README.md (conventions documentation)
+```
+
+##### Day 4 Deliverables: TypeScript Types
+- [ ] Define core interfaces (Character, Ability, Enemy)
+- [ ] Define placeholder interfaces (Item, Quest, Location)
+- [ ] Add JSDoc comments for documentation
+- [ ] Configure TypeScript strict mode
+
+**Type Strategy:**
+```typescript
+// Core types - stable and known
+export interface Character {
+  id: string;
+  name: string;
+  class: string;
+  baseStats: BaseStats;
+  abilities: string[];  // IDs, not nested objects
+}
+
+// Placeholder types - expand when building system
+export interface Item {
+  id: string;
+  name: string;
+  [key: string]: any;  // Allow flexibility, tighten later
+}
+```
+
+##### Day 5 Deliverables: Integration Test
+- [ ] Create starter data files (1 character, 2 abilities, 1 enemy)
+- [ ] Integrate DataLoader into BootScene
+- [ ] Verify data loads successfully
+- [ ] Test error scenarios (missing files, malformed JSON)
+- [ ] Document "How to Add Content" guide
+
+**Days 6-10: Phaser Setup & Architecture (Track B)**
+
+##### Day 6-7 Deliverables: Core Engine Setup
 - [ ] Phaser 3 project configured and running
-- [ ] Development environment (build tools, hot reload)
+- [ ] Vite/Webpack build pipeline configured
+- [ ] Development server with basic hot reload
+- [ ] TypeScript compilation working
 - [ ] Basic scene manager (3 empty scenes: WorldMap, Exploration, Combat)
-- [ ] Asset loading pipeline
-- [ ] Basic input handling
+
+##### Day 8-9 Deliverables: Game Architecture
+- [ ] Implement EventBus for inter-scene communication
+- [ ] Setup global GameState object
+- [ ] Create AssetLoader integration with Phaser
+- [ ] Basic input handling (keyboard/mouse)
+- [ ] Scene transition system
+
+##### Day 10 Deliverables: First Systems
+- [ ] Basic UI components (Button, Panel, Text)
+- [ ] Character sprite rendering (placeholder shapes)
+- [ ] First integration: Load character data and render sprite
+
+---
 
 #### Week 2 Deliverables
 - [ ] State management system (Redux or MobX)
 - [ ] Save/load architecture (IndexedDB integration)
-- [ ] Basic UI framework (menus, buttons, text)
+- [ ] Enhanced UI framework (menus, panels, dialogs)
 - [ ] Tile rendering system (Tiled map support)
-- [ ] Character sprite rendering (placeholder shapes)
+- [ ] Data-driven character loading (use DataLoader)
 
-#### Technical Tasks
-1. **Project Setup**
+#### **UPDATED: Technical Tasks**
+
+1. **UPDATED: Data Infrastructure (Days 1-5)**
    ```bash
-   # Initialize project
-   - npm init
-   - Install Phaser 3, Webpack/Vite, TypeScript
-   - Configure build pipeline
-   - Setup development server with hot reload
-   - Initialize Git repository
+   # Establish data-driven patterns
+   - Implement DataLoader with caching
+   - Define file structure conventions
+   - Create TypeScript interfaces for data
+   - Write example data files
+   - Test data loading pipeline
    ```
 
-2. **Core Architecture**
+2. **UPDATED: Core Architecture (Days 6-10)**
    - Create SceneManager class
    - Implement EventBus for inter-scene communication
+   - Integrate DataLoader with Phaser asset system
    - Setup global GameState object
-   - Create AssetLoader with preloading
    - Implement basic UI components (Button, Panel, Text)
 
-3. **Data Structures**
+3. **UPDATED: Data Structures (Convention-Based)**
    ```javascript
-   // Define core data models
-   - Character schema
-   - Item schema
-   - Ability schema
-   - Enemy schema
-   - Quest schema
+   // Define core data models through examples
+   // Use conventions, not rigid schemas
+   - Character structure (example-based)
+   - Ability structure (define as we build combat)
+   - Enemy structure (example-based)
+   - Item structure (defer to Week 5-6)
+   - Quest structure (defer to Week 7-8)
    ```
+
+#### **UPDATED: What We're NOT Building (Deferred)**
+
+**❌ Defer to Mid-Phase 1:**
+- Complete JSON Schema definitions (add when validating, Week 7-8)
+- Full validation pipeline (add incrementally as systems stabilize)
+- Hot-reload infrastructure (evaluate need in Week 11, add if painful)
+
+**❌ Defer to Phase 2:**
+- Content authoring tools (manual JSON editing is fine)
+- Advanced type safety (strengthen gradually)
+- Build-time validation (runtime validation sufficient)
+- Asset management pipeline (Phaser handles it)
 
 #### Testing Criteria
 - [ ] Game boots without errors
+- [ ] DataLoader successfully loads all example data files
 - [ ] Can transition between 3 scenes
 - [ ] Can save and load empty game state
-- [ ] Placeholder character renders on screen
+- [ ] Placeholder character renders on screen using data from JSON
 - [ ] Input (keyboard/mouse) responds correctly
+- [ ] **UPDATED:** Data changes visible after browser refresh (<5 seconds cycle time)
+
+#### **UPDATED: Success Metrics**
+
+**Infrastructure Complexity Target:**
+- Keep infrastructure code <500 lines (simple and maintainable)
+- Data loading cycle time <1 second
+- Content addition time <1 hour (create JSON, test, iterate)
+- **Complexity Budget: 3/10** (simple, not overengineered)
 
 #### Dependencies
 - **None** (first milestone)
@@ -326,6 +516,28 @@ A successful Phase 1 vertical slice must:
 
 **Goal:** Create explorable city environment with NPCs and interactions
 
+**UPDATED: Infrastructure Decision Point - Validation System**
+
+**Decision Criteria:**
+- [ ] Do we have 10+ JSON data files?
+- [ ] Are typos/bugs from malformed data becoming frequent?
+- [ ] Is content being added by non-programmers?
+
+**If YES to 2+:** Add basic validation for quest and dialogue data
+**If NO:** Defer validation, continue with manual testing
+
+**Quick Validation Implementation (If Needed):**
+```typescript
+// Add to DataLoader.ts (2-3 hours)
+private validateStructure(category: string, data: any): void {
+  if (category === 'quests') {
+    if (!data.id || !data.title || !data.objectives) {
+      throw new Error(`Invalid quest structure: ${data.id}`);
+    }
+  }
+}
+```
+
 #### Week 7 Deliverables
 - [ ] Tiled map for city district (15-20 locations)
 - [ ] Player movement (arrow keys/WASD)
@@ -473,6 +685,35 @@ A successful Phase 1 vertical slice must:
 ### Milestone 6: Game Juice & Polish (Weeks 11-12)
 
 **Goal:** Make the game feel satisfying through visual effects and feedback
+
+**UPDATED: Infrastructure Decision Point - Hot-Reload System**
+
+**Decision Criteria:**
+- [ ] Are we making 10+ content changes per hour?
+- [ ] Is 30-second browser refresh cycle becoming painful?
+- [ ] Are multiple team members editing content simultaneously?
+- [ ] Is refresh disrupting testing flow frequently?
+
+**If YES to 2+:** Implement hot-reload for JSON data files
+**If NO:** Defer to Phase 2, browser refresh is acceptable
+
+**Hot-Reload Implementation (If Needed):**
+```typescript
+// Enhance DataLoader.ts (4-6 hours)
+// Uses Vite's HMR API to watch data files
+if (import.meta.hot) {
+  import.meta.hot.accept((newModule) => {
+    this.cache.clear();
+    this.reloadAll();
+    EventBus.emit('data-hot-reload');
+  });
+}
+```
+
+**Trade-off Analysis:**
+- **Cost:** 4-6 hours implementation + potential reload bugs
+- **Benefit:** 1-second reload vs. 30-second refresh (29s saved per change)
+- **Break-even:** ~10 changes/day = 5 minutes saved/day
 
 #### Week 11 Deliverables
 - [ ] Screen shake system
@@ -1717,6 +1958,51 @@ For assets where code generation is insufficient, consider:
 
 ## Risk Assessment
 
+### **UPDATED: Infrastructure Risks (Pragmatic Approach)**
+
+#### **NEW Risk 0: Technical Debt from Minimal Infrastructure**
+
+**Likelihood:** Medium (50%)
+**Impact:** Medium
+**Description:** Deferring validation and schemas may lead to data quality issues
+
+**Mitigation Strategy:**
+- Add validation incrementally (Week 7-8 for stable systems)
+- Manual review of new content (team is small)
+- Write basic data structure tests early
+- Define schemas as systems stabilize (lazy schema definition)
+- Monitor "pain points" - add infrastructure when refresh cycle becomes annoying
+
+**UPDATED Contingency:**
+- If bugs from bad data exceed 5% of total bugs: Add validation immediately
+- If typos are frequent: Add schema validation for that category
+- If refresh is painful (>10 times/hour): Add hot-reload
+
+**Monitoring Metrics:**
+- Track % of bugs from malformed data (target: <5%)
+- Track content iteration time (target: <1 hour per change)
+- Track infrastructure complexity (target: <4/10 in Month 1)
+
+**Success Indicator:** By Week 12, we have validation for critical systems without slowing initial development
+
+---
+
+#### **NEW Risk 0b: Premature Optimization (Inverse Risk)**
+
+**Likelihood:** Low (avoided by pragmatic approach)
+**Impact:** High (if it happens)
+**Description:** Building too much infrastructure upfront slows gameplay development
+
+**Mitigation Strategy (Already Applied):**
+- Start with minimal infrastructure (3-5 days vs. 2 weeks)
+- Build infrastructure as needed, not "just in case"
+- Use decision points (Week 7, Week 11) to evaluate infrastructure needs
+- Apply YAGNI principle (You Aren't Gonna Need It)
+
+**Success Indicator:** Gameplay development starts Week 1 Day 6, not Week 3
+
+---
+
 ### Technical Risks
 
 #### Risk 1: Performance Issues with Particle Systems
@@ -1774,6 +2060,7 @@ For assets where code generation is insufficient, consider:
 - Centralize state mutations
 - Add state validation
 - Use TypeScript for type safety
+- **UPDATED:** Keep data structures flexible early (tighten gradually)
 
 **Contingency:** Simplify state structure, reduce inter-dependencies
 
@@ -2247,16 +2534,171 @@ For solo developers looking to collaborate or get feedback:
 
 ---
 
+## **UPDATED: Infrastructure Development Timeline**
+
+### Pragmatic Approach Summary
+
+This roadmap uses an **incremental infrastructure strategy** instead of building everything upfront.
+
+**Philosophy:** Build patterns, not implementations. Add complexity only when needed.
+
+### Infrastructure Phases
+
+#### Phase 0: Essential Foundation (Week 1, Days 1-5)
+**Time Investment:** 3-5 days
+**Complexity Level:** 2/10 (minimal)
+
+✅ **Build:**
+- DataLoader class (fetch + cache)
+- File structure conventions
+- Basic TypeScript types
+- Example data files
+
+❌ **Defer:**
+- JSON schemas
+- Validation pipeline
+- Hot-reload
+- Content authoring tools
+
+**Success Metric:** Gameplay development starts Day 6
+
+---
+
+#### Phase 1: Expand as Needed (Weeks 2-10)
+**Time Investment:** Parallel with gameplay (1-2 hours per week)
+**Complexity Level:** 3-4/10 (still simple)
+
+✅ **Add incrementally:**
+- Week 3-4: Define ability schema (combat system needs it)
+- Week 5-6: Define item schema (progression system needs it)
+- Week 7-8: Define quest schema (exploration system needs it)
+- Week 7-8: **Decision Point:** Add validation if data errors are frequent
+
+❌ **Still deferred:**
+- Hot-reload (unless painful)
+- Build-time validation
+- Advanced tooling
+
+**Success Metric:** Infrastructure doesn't block gameplay
+
+---
+
+#### Phase 2: Polish Infrastructure (Weeks 11-12)
+**Time Investment:** 4-8 hours (if needed)
+**Complexity Level:** 5-6/10 (moderate)
+
+✅ **Evaluate and add:**
+- Week 11: **Decision Point:** Add hot-reload if refresh cycle is painful
+- Week 11-12: Add validation for all critical systems
+- Week 12: Schema documentation for all data types
+
+**Success Metric:** Infrastructure enables efficient content creation
+
+---
+
+#### Phase 3: Advanced Features (Phase 2+, Post-Week 16)
+**Time Investment:** Future work
+**Complexity Level:** 7-8/10 (advanced)
+
+✅ **Phase 2+ features:**
+- Build-time validation in CI/CD
+- Content authoring tools
+- Hot-reload for all assets (not just JSON)
+- Localization support
+- Asset optimization pipeline
+
+**Success Metric:** Professional-grade infrastructure for larger team
+
+---
+
+### Decision Points Checklist
+
+Copy this checklist and evaluate at each milestone:
+
+#### Week 7-8 Decision: Add Validation?
+- [ ] We have 10+ JSON data files
+- [ ] Typos/malformed data causing >5% of bugs
+- [ ] Content being added by non-programmers
+- [ ] Manual testing is missing errors
+- **If 2+ checked:** Add validation (2-4 hours investment)
+- **If not:** Continue manual testing, revisit Week 11
+
+#### Week 11 Decision: Add Hot-Reload?
+- [ ] Making 10+ content changes per hour
+- [ ] 30-second refresh cycle is painful
+- [ ] Multiple people editing content
+- [ ] Testing flow interrupted by refresh
+- **If 2+ checked:** Add hot-reload (4-6 hours investment)
+- **If not:** Defer to Phase 2
+
+#### Week 11 Decision: Add Asset Pipeline Tools?
+- [ ] Asset iteration time >30 minutes
+- [ ] Manual asset optimization needed
+- [ ] Multiple asset formats needed
+- [ ] Asset naming/organization issues
+- **If 2+ checked:** Add asset tools
+- **If not:** Defer to Phase 2
+
+---
+
+### Monitoring Metrics
+
+Track these weekly to ensure infrastructure stays pragmatic:
+
+**Complexity Metrics:**
+- Infrastructure code lines: Target <500 (M1), <1000 (M8)
+- Subjective complexity rating: Target <4/10 (Month 1), <6/10 (Month 3)
+- Time to add infrastructure: Target <1 day per feature
+
+**Quality Metrics:**
+- % bugs from malformed data: Target <5%
+- Content iteration time: Target <1 hour
+- Data loading time: Target <1 second
+
+**Velocity Metrics:**
+- Gameplay features blocked by infrastructure: Target 0
+- Infrastructure refactoring time: Target <1 day/month
+- Time saved by infrastructure: Track tangible benefits
+
+**Warning Signs (act immediately if seen):**
+- 🚨 >10% of bugs from bad data → Add validation
+- 🚨 >2 hours to add new content → Simplify structure
+- 🚨 Gameplay blocked waiting for infrastructure → Skip that infrastructure
+- 🚨 Infrastructure complexity >7/10 → Remove features, simplify
+
+---
+
+### Comparison: Original vs. Pragmatic Approach
+
+| Aspect | Original Plan | Architect Proposal | **Pragmatic (This Doc)** |
+|--------|--------------|-------------------|------------------------|
+| **Week 1 Focus** | Project setup | 2-week infrastructure | **5 days infrastructure + 5 days setup** |
+| **Validation** | Not mentioned | Week 1-2 (complete) | **Week 7-8 (if needed)** |
+| **Hot-Reload** | Not mentioned | Week 1-2 | **Week 11 (if needed)** |
+| **Schemas** | Not mentioned | Week 1-2 (all) | **Define when building system** |
+| **First Gameplay** | Week 1 | Week 3 | **Week 1 Day 6** |
+| **Infrastructure Complexity** | Low | High | **Medium (expandable)** |
+| **Total Timeline** | 15 weeks | 17 weeks | **15 weeks** |
+| **Refactoring Risk** | Medium | Low | **Medium** |
+| **Learning Waste** | Low | High | **Low** |
+
+**Key Difference:** Infrastructure enhances gameplay (parallel), doesn't block it (sequential)
+
+---
+
 ## Document Change Log
 
 | Version | Date | Changes |
 |---------|------|---------|
 | 1.0 | 2025-11-01 | Initial roadmap created |
+| 2.0 | 2025-11-01 | **UPDATED:** Added pragmatic infrastructure approach - 3-5 day minimal foundation, incremental expansion, decision points at Week 7 and Week 11, updated M1 with parallel tracks, added infrastructure risks and metrics |
 
 ---
 
 **End of Phase 1 Development Roadmap**
 
 This roadmap is a living document. Adjust timelines, scope, and priorities as development progresses. The goal is a playable, polished vertical slice that demonstrates the game's potential.
+
+**Infrastructure Philosophy:** Start minimal (3-5 days), expand as needed (decision points), maintain low complexity (<6/10), enable fast iteration (<1 hour per change), follow YAGNI principle (You Aren't Gonna Need It).
 
 Good luck, and happy developing!
