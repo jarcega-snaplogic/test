@@ -1,0 +1,3134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnapLogic AgentCreator Bootcamp: Build AI Sales Agents</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #004d99;
+            --accent-color: #00a3e0;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --light-bg: #f8f9fa;
+            --dark-text: #212529;
+            --muted-text: #6c757d;
+            --border-color: #dee2e6;
+            --sidebar-width: 280px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: var(--dark-text);
+            background-color: #fff;
+        }
+
+        /* Navigation Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: linear-gradient(180deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            overflow-y: auto;
+            z-index: 1000;
+            padding: 20px 0;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            margin-bottom: 20px;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-header .course-code {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .sidebar-header .bootcamp-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b6b, #ffa502);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+        }
+
+        .sidebar nav > ul > li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar nav a {
+            display: block;
+            padding: 10px 20px;
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar nav a:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-left-color: var(--accent-color);
+        }
+
+        .sidebar nav a.active {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border-left-color: var(--accent-color);
+        }
+
+        .sidebar .module-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 12px 20px 8px;
+            color: white;
+        }
+
+        .sidebar .sub-nav {
+            padding-left: 15px;
+        }
+
+        .sidebar .sub-nav a {
+            font-size: 0.85rem;
+            padding: 6px 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 40px 60px;
+            max-width: 1000px;
+        }
+
+        /* Header */
+        .course-header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 3px solid var(--primary-color);
+            margin-bottom: 40px;
+        }
+
+        .course-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .course-header .subtitle {
+            font-size: 1.3rem;
+            color: var(--muted-text);
+            margin-bottom: 20px;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--muted-text);
+        }
+
+        .meta-item strong {
+            color: var(--dark-text);
+        }
+
+        /* Live Badge */
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #ff4757, #ff6b81);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-top: 15px;
+            animation: pulse 2s infinite;
+        }
+
+        .live-badge::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Module Sections */
+        .module {
+            margin-bottom: 60px;
+            page-break-before: always;
+        }
+
+        .module:first-of-type {
+            page-break-before: auto;
+        }
+
+        .module-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .module-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .module-header .module-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Section Headers */
+        h3 {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        h4 {
+            font-size: 1.15rem;
+            color: var(--secondary-color);
+            margin: 25px 0 15px;
+        }
+
+        h5 {
+            font-size: 1rem;
+            color: var(--dark-text);
+            margin: 20px 0 10px;
+        }
+
+        /* Paragraphs */
+        p {
+            margin-bottom: 15px;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 15px 0 15px 30px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        /* Callout Boxes */
+        .callout {
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border-left: 4px solid;
+        }
+
+        .callout-info {
+            background: #e7f3ff;
+            border-color: var(--primary-color);
+        }
+
+        .callout-success {
+            background: #d4edda;
+            border-color: var(--success-color);
+        }
+
+        .callout-warning {
+            background: #fff3cd;
+            border-color: var(--warning-color);
+        }
+
+        .callout-danger {
+            background: #f8d7da;
+            border-color: var(--danger-color);
+        }
+
+        .callout-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Key Concept Box */
+        .key-concept {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .key-concept h5 {
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        /* Pro Tip Box */
+        .pro-tip {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .pro-tip::before {
+            content: "INSTRUCTOR TIP";
+            display: block;
+            font-weight: 700;
+            color: #856404;
+            margin-bottom: 10px;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background: var(--light-bg);
+        }
+
+        /* Code Blocks */
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        /* Mermaid Diagrams */
+        .diagram-container {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .diagram-container .diagram-title {
+            font-weight: 600;
+            color: var(--muted-text);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        /* Links */
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .doc-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--light-bg);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin: 5px 5px 5px 0;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s;
+        }
+
+        .doc-link:hover {
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-color: var(--primary-color);
+        }
+
+        /* Learning Objectives */
+        .learning-objectives {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border: 1px solid #2196f3;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .learning-objectives h4 {
+            color: #1565c0;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .learning-objectives ul {
+            margin-bottom: 0;
+        }
+
+        /* Step-by-Step Boxes */
+        .step-box {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+            padding: 20px;
+            background: var(--light-bg);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .step-number {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .step-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .step-content h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+
+        .step-content p:last-child,
+        .step-content ol:last-child,
+        .step-content ul:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Concept Box */
+        .concept-box {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e1efff 100%);
+            border: 1px solid #b3d4fc;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .concept-box h4 {
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        /* Code Block styling */
+        .code-block {
+            background: #2d2d2d;
+            border-radius: 8px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .code-block pre {
+            margin: 0;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        /* ACME Company Box */
+        .acme-scenario {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+        }
+
+        .acme-scenario h4 {
+            color: white;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .acme-scenario p {
+            opacity: 0.95;
+        }
+
+        /* Hands-On Exercise Box */
+        .hands-on {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border: 2px solid #4caf50;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .hands-on::before {
+            content: "HANDS-ON";
+            display: block;
+            font-weight: 700;
+            color: #2e7d32;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .hands-on h4 {
+            color: #2e7d32;
+            margin-top: 0;
+        }
+
+        /* Success/Fail Result Boxes */
+        .result-success {
+            background: #d4edda;
+            border: 1px solid #28a745;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .result-success::before {
+            content: "SUCCESS: ";
+            font-weight: 700;
+            color: #28a745;
+        }
+
+        .result-fail {
+            background: #f8d7da;
+            border: 1px solid #dc3545;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .result-fail::before {
+            content: "EXPECTED FAILURE: ";
+            font-weight: 700;
+            color: #dc3545;
+        }
+
+        /* Tip Box */
+        .tip-box {
+            background: #fff8e1;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .tip-box h4 {
+            color: #856404;
+            margin-top: 0;
+            font-size: 1rem;
+        }
+
+        /* Screenshot Placeholder */
+        .screenshot-placeholder {
+            background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 40px 20px;
+            margin: 25px 0;
+            text-align: center;
+            color: var(--muted-text);
+        }
+
+        .screenshot-placeholder .icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .screenshot-placeholder .label {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .screenshot-placeholder .description {
+            font-size: 0.9rem;
+        }
+
+        /* Print Styles */
+        @media print {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+                max-width: 100%;
+            }
+
+            .module {
+                page-break-inside: avoid;
+            }
+
+            .diagram-container, .callout, .key-concept {
+                page-break-inside: avoid;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 240px;
+            }
+
+            .main-content {
+                margin-left: 240px;
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>AgentCreator Bootcamp</h2>
+            <div class="course-code">Build AI Sales Agents</div>
+            <div class="bootcamp-badge">Live Workshop</div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#overview">Bootcamp Overview</a></li>
+                <li><a href="#prerequisites">Prerequisites & Setup</a></li>
+
+                <li class="module-title">Module 1: Introduction</li>
+                <ul class="sub-nav">
+                    <li><a href="#m1-what-is">1.1 What is AgentCreator</a></li>
+                    <li><a href="#m1-agents-vs-assistants">1.2 Agents vs Assistants</a></li>
+                    <li><a href="#m1-llm-providers">1.3 Amazon Bedrock</a></li>
+                    <li><a href="#m1-navigation">1.4 Platform Navigation</a></li>
+                </ul>
+
+                <li class="module-title">Module 2: Prompt Composer</li>
+                <ul class="sub-nav">
+                    <li><a href="#m2-launching">2.1 Launching Prompt Composer</a></li>
+                    <li><a href="#m2-interface">2.2 The 6-Panel Interface</a></li>
+                    <li><a href="#m2-snapgpt">2.3 SnapGPT for Prompts</a></li>
+                    <li><a href="#m2-mustache">2.4 Mustache Syntax</a></li>
+                </ul>
+
+                <li class="module-title">Module 3: Build Your Sales Agent</li>
+                <ul class="sub-nav">
+                    <li><a href="#m3-first-agent">3.1 Your First Agent + Email</a></li>
+                    <li><a href="#m3-salesforce-basic">3.2 Add Salesforce (by ID)</a></li>
+                    <li><a href="#m3-salesforce-flexible">3.3 Flexible WHERE + LIMIT</a></li>
+                    <li><a href="#m3-multi-object">3.4 Dynamic Objects (Multi-Turn)</a></li>
+                </ul>
+
+                <li class="module-title">Module 4: Debugging</li>
+                <ul class="sub-nav">
+                    <li><a href="#m4-intro">4.1 Agent Visualizer Intro</a></li>
+                    <li><a href="#m4-interface">4.2 Two-Panel Interface</a></li>
+                    <li><a href="#m4-messages">4.3 Messages Array</a></li>
+                    <li><a href="#m4-troubleshooting">4.4 Troubleshooting</a></li>
+                    <li><a href="#m4-record-replay">4.5 Record Replay</a></li>
+                    <li><a href="#m4-export">4.6 Exporting Logs</a></li>
+                </ul>
+
+                <li><a href="#next-steps">Next Steps: MCP</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Course Header -->
+        <header class="course-header">
+            <h1>SnapLogic AgentCreator Bootcamp</h1>
+            <p class="subtitle">Build AI Sales Agents That Query Salesforce & Take Action</p>
+            <div class="course-meta">
+                <div class="meta-item"><strong>Duration:</strong> ~3 hours</div>
+                <div class="meta-item"><strong>Level:</strong> Hands-On</div>
+                <div class="meta-item"><strong>LLM:</strong> Amazon Bedrock (Claude Sonnet 4.5)</div>
+            </div>
+            <div class="live-badge">Live Instructor-Led Workshop</div>
+        </header>
+
+        <!-- Bootcamp Overview -->
+        <section id="overview">
+            <h3>Bootcamp Overview</h3>
+            <p>Welcome to the AgentCreator Bootcamp! Today you'll go from zero to building a fully functional AI sales agent that can query Salesforce, reason about your data, and take actions like sending emails - all without writing code.</p>
+
+            <div class="acme-scenario">
+                <h4>Your Mission: ACME API Platform</h4>
+                <p>You've just joined <strong>ACME API Platform</strong>, a fictional company. Your sales team needs an AI assistant that can:</p>
+                <ul>
+                    <li>Query Salesforce for opportunities, contacts, and accounts</li>
+                    <li>Analyze deal stages and identify risks</li>
+                    <li>Send reports and insights by email</li>
+                    <li>Answer complex, multi-step questions autonomously</li>
+                </ul>
+                <p><strong>By the end of this bootcamp, you'll have built exactly that.</strong></p>
+            </div>
+
+            <div class="learning-objectives">
+                <h4>What You'll Build</h4>
+                <ul>
+                    <li><strong>Phase 1:</strong> A basic agent with email capability - test with "Who is the PM of the UK?"</li>
+                    <li><strong>Phase 2:</strong> Add Salesforce access - lookup opportunities by ID</li>
+                    <li><strong>Phase 3:</strong> Make it smart - AI generates its own WHERE conditions</li>
+                    <li><strong>Phase 4:</strong> Full power - query any Salesforce object with multi-turn conversations</li>
+                </ul>
+            </div>
+
+            <h4>Bootcamp Structure</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Module</th>
+                        <th>Topic</th>
+                        <th>Duration</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Introduction to AgentCreator</td>
+                        <td>20 min</td>
+                        <td>Instructor Demo</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Prompt Composer Essentials</td>
+                        <td>15 min</td>
+                        <td>Instructor Demo</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Build Your Sales Agent</td>
+                        <td>2 hrs</td>
+                        <td>Hands-On</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Debugging with Agent Visualizer</td>
+                        <td>20 min</td>
+                        <td>Hands-On</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Prerequisites -->
+        <section id="prerequisites">
+            <h3>Prerequisites & Setup</h3>
+
+            <div class="callout callout-success">
+                <div class="callout-title">Good News: Access Is Pre-Configured!</div>
+                <p>As a bootcamp participant, you have access to:</p>
+                <ul>
+                    <li><strong>SnapLogic Organization:</strong> Pre-configured with AgentCreator enabled</li>
+                    <li><strong>Amazon Bedrock Account:</strong> Already set up with Claude Sonnet 4.5 access</li>
+                    <li><strong>Salesforce Sandbox:</strong> Connected with sample opportunity data</li>
+                    <li><strong>Email Tool:</strong> NotifyByEmail pre-configured in your project space</li>
+                </ul>
+            </div>
+
+            <h4>Your Credentials</h4>
+            <p>Your instructor will provide:</p>
+            <ul>
+                <li>SnapLogic login URL and credentials</li>
+                <li>Project folder location for your work</li>
+                <li>Your email address for testing notifications</li>
+            </ul>
+
+            <h4>Quick Environment Check</h4>
+            <ol>
+                <li>Log into SnapLogic Designer</li>
+                <li>Navigate to your assigned project folder</li>
+                <li>Open the Snap Catalog and search for "Bedrock" - you should see Amazon Bedrock Snaps</li>
+                <li>Search for "Salesforce" - you should see Salesforce Snaps</li>
+            </ol>
+
+            <div class="pro-tip">
+                If you don't see the Bedrock or Salesforce Snaps, raise your hand - we'll get you sorted before we start building.
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- MODULE 1: INTRODUCTION TO AGENTCREATOR -->
+        <!-- ============================================================ -->
+        <section class="module" id="module-1">
+            <div class="module-header">
+                <h2>Module 1: Introduction to AgentCreator</h2>
+                <div class="module-meta">
+                    <span>Duration: 20 minutes</span>
+                    <span>Type: Instructor Demo</span>
+                </div>
+            </div>
+
+            <div class="learning-objectives">
+                <h4>Module Learning Objectives</h4>
+                <ul>
+                    <li>Define AgentCreator and explain its role in the SnapLogic ecosystem</li>
+                    <li>Differentiate between Agents and Assistants</li>
+                    <li>Understand how Amazon Bedrock integrates with AgentCreator</li>
+                    <li>Navigate AgentCreator features within SnapLogic Designer</li>
+                </ul>
+            </div>
+
+            <!-- Section 1.1: What is AgentCreator -->
+            <section id="m1-what-is">
+                <h3>1.1 What is AgentCreator?</h3>
+
+                <p><strong>AgentCreator</strong> is SnapLogic's enterprise-grade platform for building LLM-powered agents, assistants, and applications. It enables organizations to harness the power of generative AI within the familiar SnapLogic Designer interface - no separate application, no coding required.</p>
+
+                <p>Think of AgentCreator as a bridge between your enterprise data and large language models. It's not an LLM itself; rather, it's a sophisticated framework that connects to multiple LLM providers (OpenAI, Azure OpenAI, Amazon Bedrock, Google Gemini) and orchestrates them to perform complex, autonomous tasks.</p>
+
+                <div class="key-concept">
+                    <h5>Key Concept: AgentCreator is NOT an LLM</h5>
+                    <p>A common misconception is that AgentCreator is a language model. It's actually a <strong>platform</strong> that connects to LLMs. Think of it like this: LLMs are the "brains" and AgentCreator provides the "body" - the pipelines, tools, and orchestration that allow those brains to take action in your enterprise environment.</p>
+                </div>
+
+                <h4>Why AgentCreator?</h4>
+                <p>Traditional approaches to building AI applications require significant development effort - custom code, API integration, conversation management, and more. AgentCreator eliminates this complexity by providing:</p>
+
+                <ul>
+                    <li><strong>No-Code Development</strong> - Build agents using drag-and-drop Snaps, just like data pipelines</li>
+                    <li><strong>Multi-LLM Support</strong> - OpenAI, Azure OpenAI, Bedrock, Gemini</li>
+                    <li><strong>Enterprise Security</strong> - Built-in governance and access control</li>
+                    <li><strong>Full Integration</strong> - Connect AI to any data source (500+ connectors)</li>
+                    <li><strong>Production Ready</strong> - Deploy, monitor, and scale in production</li>
+                </ul>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">AgentCreator Ecosystem</div>
+                    <div class="mermaid">
+flowchart TB
+    subgraph "SnapLogic Platform"
+        AC[AgentCreator]
+        DS[Designer]
+        MG[Manager]
+        SX[Snaplex]
+    end
+
+    subgraph "LLM Providers"
+        OA[OpenAI]
+        AZ[Azure OpenAI]
+        BD[Amazon Bedrock]
+        GG[Google Gemini]
+    end
+
+    subgraph "Vector Databases"
+        PC[Pinecone]
+        OS[OpenSearch]
+        MDB[MongoDB]
+    end
+
+    subgraph "Enterprise Data"
+        DB[(Databases)]
+        API[APIs]
+        SaaS[SaaS Apps]
+    end
+
+    AC --> DS
+    AC --> MG
+    DS --> SX
+
+    AC <--> OA
+    AC <--> AZ
+    AC <--> BD
+    AC <--> GG
+
+    AC <--> PC
+    AC <--> OS
+    AC <--> MDB
+
+    AC <--> DB
+    AC <--> API
+    AC <--> SaaS
+
+    style AC fill:#0066cc,color:#fff
+    style DS fill:#004d99,color:#fff
+    style MG fill:#004d99,color:#fff
+    style BD fill:#ff9900,color:#fff
+                    </div>
+                </div>
+
+                <h4>Core Capabilities</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Capability</th>
+                            <th>Description</th>
+                            <th>Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Tool Calling</strong></td>
+                            <td>Agents can dynamically invoke external functions and pipelines</td>
+                            <td>Query databases, call APIs, execute business logic</td>
+                        </tr>
+                        <tr>
+                            <td><strong>RAG</strong></td>
+                            <td>Retrieval-Augmented Generation with vector databases</td>
+                            <td>Q&A over documents, knowledge bases</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Multimodal</strong></td>
+                            <td>Process text, images, PDFs, and audio</td>
+                            <td>Document analysis, image understanding</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Structured Output</strong></td>
+                            <td>Generate JSON and structured data from LLM responses</td>
+                            <td>Data extraction, API responses</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Conversation Management</strong></td>
+                            <td>Maintain context across multi-turn conversations</td>
+                            <td>Chatbots, virtual assistants</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>AgentCreator Components</h4>
+                <p>AgentCreator is built from several integrated components that work together within the SnapLogic platform:</p>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">AgentCreator Component Architecture</div>
+                    <div class="mermaid">
+flowchart LR
+    subgraph "Development Tools"
+        PC[Prompt Composer]
+        AV[Agent Visualizer]
+        PL[Pattern Library]
+    end
+
+    subgraph "Snap Packs"
+        LLM[LLM Snap Packs]
+        VDB[Vector DB Packs]
+        UTIL[Utility Packs]
+        DOC[Document Packs]
+    end
+
+    subgraph "Runtime"
+        AS[Agent Snap]
+        TP[Tool Pipelines]
+        TT[Triggered Tasks]
+        UT[Ultra Tasks]
+    end
+
+    PC --> LLM
+    AV --> AS
+    PL --> AS
+
+    LLM --> AS
+    VDB --> TP
+    UTIL --> TP
+    DOC --> TP
+
+    AS --> TT
+    AS --> UT
+
+    style PC fill:#00a3e0,color:#fff
+    style AV fill:#00a3e0,color:#fff
+    style AS fill:#0066cc,color:#fff
+                    </div>
+                </div>
+
+                <div class="pro-tip">
+                    AgentCreator uses the same Snap paradigm you already know from building data pipelines. If you can build a SnapLogic pipeline, you can build an AI agent. The learning curve is primarily about understanding the new Snaps and patterns, not learning a new tool.
+                </div>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">What We're Building Today</div>
+                    <div class="mermaid">
+flowchart LR
+    subgraph "Your Sales Agent"
+        USER[User Question] --> AGENT[Agent Snap<br/>Claude Sonnet 4.5]
+        AGENT --> SF[Salesforce Tool]
+        AGENT --> EMAIL[Email Tool]
+        SF --> AGENT
+        AGENT --> RESPONSE[Answer + Action]
+    end
+
+    style AGENT fill:#0066cc,color:#fff
+    style SF fill:#00a3e0,color:#fff
+    style EMAIL fill:#28a745,color:#fff
+                    </div>
+                </div>
+
+                <h4>Documentation Links</h4>
+                <p>
+                    <a href="https://docs.snaplogic.com/agentcreator/agentcreator-about.html" class="doc-link" target="_blank">AgentCreator Overview</a>
+                    <a href="https://docs.snaplogic.com/agentcreator/agentcreator-workflow.html" class="doc-link" target="_blank">Getting Started Workflow</a>
+                    <a href="https://docs.snaplogic.com/agentcreator/agentcreator-support-matrix.html" class="doc-link" target="_blank">Support Matrix</a>
+                </p>
+            </section>
+
+            <!-- Section 1.2: Agents vs Assistants -->
+            <section id="m1-agents-vs-assistants">
+                <h3>1.2 Agents vs Assistants</h3>
+
+                <p>One of the most important distinctions in AgentCreator is understanding the difference between <strong>Agents</strong> and <strong>Assistants</strong>. While these terms are sometimes used interchangeably in the industry, they represent fundamentally different approaches in SnapLogic.</p>
+
+                <div class="key-concept">
+                    <h5>The Simple Distinction</h5>
+                    <ul>
+                        <li><strong>Agents</strong> = Custom-built using SnapLogic pipelines (full control) - <em>What we're building!</em></li>
+                        <li><strong>Assistants</strong> = Pre-packaged vendor solutions (easier setup, less control)</li>
+                    </ul>
+                </div>
+
+                <h4>What is an Agent?</h4>
+                <p>In SnapLogic, an <strong>Agent</strong> is a group of pipelines working together to accomplish complex, goal-based tasks autonomously. Agents can:</p>
+                <ul>
+                    <li>Make decisions based on LLM reasoning</li>
+                    <li>Call multiple tools dynamically based on the task</li>
+                    <li>Iterate through complex workflows until a goal is achieved</li>
+                    <li>Maintain conversation context across interactions</li>
+                    <li>Integrate with any SnapLogic-connected data source</li>
+                </ul>
+
+                <h4>What is an Assistant?</h4>
+                <p><strong>Assistants</strong> are managed conversation tools provided by LLM vendors themselves. Examples include:</p>
+                <ul>
+                    <li><strong>OpenAI Assistants</strong> - Managed through OpenAI's API with built-in tools</li>
+                    <li><strong>Amazon Bedrock Agents</strong> - AWS's managed agent service</li>
+                </ul>
+                <p>These are pre-built solutions that you configure and invoke through SnapLogic Snaps, but the conversation management and tool execution happens on the vendor's side.</p>
+
+                <h4>Detailed Comparison</h4>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>Agents (Custom-Built)</th>
+                            <th>Assistants (Vendor-Managed)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Control</strong></td>
+                            <td>Full control over prompts, tools, flow, logic</td>
+                            <td>Limited to vendor-provided configuration</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Implementation</strong></td>
+                            <td>Build with Agent Snap + custom tool pipelines</td>
+                            <td>Configure in vendor console, invoke via Snaps</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Flexibility</strong></td>
+                            <td>Any pipeline can be a tool</td>
+                            <td>Restricted to vendor's tool framework</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Debugging</strong></td>
+                            <td>Full visibility via Agent Visualizer</td>
+                            <td>Limited to vendor's logging</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Data Residency</strong></td>
+                            <td>Control where data flows</td>
+                            <td>Data processed on vendor's infrastructure</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Architecture Comparison</h4>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">Agent Architecture (Custom-Built) - What We're Building</div>
+                    <div class="mermaid">
+flowchart TB
+    subgraph "Your SnapLogic Environment"
+        USER[User Input] --> AS[Agent Snap]
+        AS <--> LLM[Claude Sonnet 4.5<br/>on Bedrock]
+        AS --> T1[Salesforce Tool]
+        AS --> T2[Email Tool]
+        T1 --> DATA[(Salesforce Data)]
+        T2 --> SMTP[Email Server]
+        AS --> RESP[Response to User]
+    end
+
+    style AS fill:#0066cc,color:#fff
+    style LLM fill:#00a3e0,color:#fff
+                    </div>
+                </div>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">Assistant Architecture (Vendor-Managed)</div>
+                    <div class="mermaid">
+flowchart TB
+    subgraph "Your SnapLogic Environment"
+        USER[User Input] --> SNAP[Assistant Snap]
+        SNAP --> RESP[Response to User]
+    end
+
+    subgraph "Vendor Infrastructure"
+        SNAP <--> ASST[Managed Assistant]
+        ASST <--> LLM[LLM]
+        ASST <--> TOOLS[Vendor Tools]
+        ASST <--> VS[Vector Store]
+    end
+
+    style SNAP fill:#0066cc,color:#fff
+    style ASST fill:#ff9800,color:#fff
+    style LLM fill:#00a3e0,color:#fff
+                    </div>
+                </div>
+
+                <h4>When to Use Each</h4>
+
+                <div class="callout callout-success">
+                    <div class="callout-title">Use Agents When:</div>
+                    <ul>
+                        <li>You need full control over the conversation flow and tool execution</li>
+                        <li>Building complex, multi-step workflows with custom business logic</li>
+                        <li>Requiring integration with multiple SnapLogic-connected data sources</li>
+                        <li>Debugging and detailed monitoring are critical</li>
+                        <li>Data residency and compliance require control over data flow</li>
+                    </ul>
+                </div>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">Use Assistants When:</div>
+                    <ul>
+                        <li>You want rapid deployment with minimal configuration</li>
+                        <li>The use case fits well within vendor-provided capabilities</li>
+                        <li>You prefer managed conversation threads and context</li>
+                        <li>You're prototyping and want to test quickly</li>
+                    </ul>
+                </div>
+
+                <div class="pro-tip">
+                    For this bootcamp, we focus on building <strong>Agents</strong> using the Agent Snap. This gives you maximum flexibility and teaches you the fundamental patterns. Once you master agents, using Assistants becomes straightforward.
+                </div>
+
+                <h4>Documentation Links</h4>
+                <p>
+                    <a href="https://docs.snaplogic.com/agentcreator/agentcreator-concepts.html" class="doc-link" target="_blank">AgentCreator Concepts</a>
+                    <a href="https://docs.snaplogic.com/agentcreator/agentcreator-build-agents.html" class="doc-link" target="_blank">Building Agents</a>
+                </p>
+            </section>
+
+            <!-- Section 1.3: Amazon Bedrock -->
+            <section id="m1-llm-providers">
+                <h3>1.3 LLM Provider: Amazon Bedrock</h3>
+
+                <p>AgentCreator supports four major LLM providers. Today we're using <strong>Amazon Bedrock</strong> with <strong>Claude Sonnet 4.5</strong> - a popular enterprise choice.</p>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">Supported LLM Providers</div>
+                    <div class="mermaid">
+flowchart LR
+    AC[AgentCreator] --> OA[OpenAI]
+    AC --> AZ[Azure OpenAI]
+    AC --> BD[Amazon Bedrock]
+    AC --> GG[Google Gemini]
+
+    OA --> GPT4[GPT-4o, GPT-5]
+    AZ --> AZGPT[GPT-4o via Azure]
+    BD --> CLAUDE[Claude, Titan]
+    GG --> GEM[Gemini, VertexAI]
+
+    style AC fill:#0066cc,color:#fff
+    style BD fill:#ff9900,color:#fff
+    style CLAUDE fill:#ff9900,color:#fff
+                    </div>
+                </div>
+
+                <h4>Provider Quick Comparison</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Provider</th>
+                            <th>Best For</th>
+                            <th>Authentication</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>OpenAI</td>
+                            <td>Rapid prototyping, latest features</td>
+                            <td>API Key (simple)</td>
+                        </tr>
+                        <tr>
+                            <td>Azure OpenAI</td>
+                            <td>Enterprise compliance, Azure ecosystem</td>
+                            <td>Entra ID, API Key, Managed Identity</td>
+                        </tr>
+                        <tr style="background-color: #fff3e0;">
+                            <td><strong>Amazon Bedrock</strong> ⬅ Today</td>
+                            <td>AWS ecosystem, multi-model flexibility</td>
+                            <td>AWS IAM credentials</td>
+                        </tr>
+                        <tr>
+                            <td>Google Gemini</td>
+                            <td>Google Cloud, advanced multimodal</td>
+                            <td>Service Account, OAuth2</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="key-concept">
+                    <h5>Why Bedrock + Claude Sonnet 4.5 for This Bootcamp?</h5>
+                    <ul>
+                        <li><strong>AWS Integration:</strong> Native to AWS ecosystem many enterprises use</li>
+                        <li><strong>Claude's Strengths:</strong> Excellent at reasoning, following instructions, and tool calling</li>
+                        <li><strong>Enterprise Ready:</strong> Data stays in your AWS region</li>
+                        <li><strong>Converse API:</strong> Native tool calling support with structured responses</li>
+                    </ul>
+                </div>
+
+                <h4>Bedrock Account Configuration</h4>
+                <p>Your instructor has pre-configured the Bedrock account with:</p>
+                <ul>
+                    <li><strong>Region:</strong> (as configured)</li>
+                    <li><strong>Model:</strong> Claude Sonnet 4.5 (<code>global.anthropic.claude-sonnet-4-5-20250929-v1:0</code>)</li>
+                    <li><strong>Authentication:</strong> AWS IAM credentials</li>
+                </ul>
+
+                <div class="callout callout-warning">
+                    <div class="callout-title">Important: You Can Use Multiple Providers</div>
+                    <p>AgentCreator allows you to use different LLM providers in different agents. You're not locked into a single choice. Many organizations use one provider for prototyping and another for production.</p>
+                </div>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">Note for Your Own Projects</div>
+                    <p>When building agents in your own org, you'll need to configure LLM accounts in SnapLogic Manager. The pattern is the same regardless of which provider you choose - AgentCreator abstracts the differences.</p>
+                </div>
+
+                <h4>Documentation Links</h4>
+                <p>
+                    <a href="https://docs.snaplogic.com/snaps/snaps-machine-learning/sp-amazon-bedrock-llm/sp-history.html" class="doc-link" target="_blank">Amazon Bedrock Snap Pack</a>
+                    <a href="https://docs.snaplogic.com/agentcreator/agentcreator-support-matrix.html" class="doc-link" target="_blank">Support Matrix</a>
+                </p>
+            </section>
+
+            <!-- Section 1.4: Platform Navigation -->
+            <section id="m1-navigation">
+                <h3>1.4 Platform Navigation</h3>
+
+                <p>AgentCreator is <strong>fully integrated within SnapLogic Designer</strong> - there's no separate application to learn. If you know how to build SnapLogic pipelines, you already know 80% of what you need to build AI agents.</p>
+
+                <div class="key-concept">
+                    <h5>Key Point: No "AgentCreator Button"</h5>
+                    <p>There's no separate "AgentCreator" application or section in SnapLogic. AgentCreator features are accessed through the same tools you already use: Snap Catalog, Pipeline Canvas, and Manager. The AgentCreator "experience" comes from using specific Snap Packs designed for AI agent development.</p>
+                </div>
+
+                <h4>Primary Access Points</h4>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">AgentCreator Navigation Map</div>
+                    <div class="mermaid">
+flowchart TB
+    subgraph "SnapLogic Designer"
+        CANVAS[Pipeline Canvas]
+        CATALOG[Snap Catalog]
+        PREVIEW[Data Preview]
+    end
+
+    subgraph "AgentCreator Tools"
+        PC[Prompt Composer]
+        AV[Agent Visualizer]
+    end
+
+    subgraph "Resources"
+        PL[Pattern Library]
+        DOCS[Documentation]
+    end
+
+    CATALOG -->|Search LLM Snaps| CANVAS
+    CANVAS -->|Open from Snap| PC
+    CANVAS -->|Debug Agent| AV
+    PL -->|Download Templates| CANVAS
+    CANVAS -->|Test Data| PREVIEW
+
+    style CANVAS fill:#0066cc,color:#fff
+    style PC fill:#00a3e0,color:#fff
+    style AV fill:#00a3e0,color:#fff
+                    </div>
+                </div>
+
+                <h4>1. Snap Catalog (Primary Access)</h4>
+
+                <p>The Snap Catalog is where you find all AgentCreator Snaps. These are organized into Snap Packs by function:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Snap Pack Category</th>
+                            <th>What It Contains</th>
+                            <th>Search Terms</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>LLM Snap Packs</strong></td>
+                            <td>Provider-specific Snaps (Chat, Tool Calling, Embedder)</td>
+                            <td>"OpenAI", "Azure", "Bedrock", "Gemini"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LLM Utilities</strong></td>
+                            <td>Message Appender, Function Generators, PipeLoop</td>
+                            <td>"LLM Utilities", "Function Generator"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Vector Databases</strong></td>
+                            <td>Pinecone, OpenSearch, MongoDB</td>
+                            <td>"Pinecone", "Vector", "OpenSearch"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Document Processing</strong></td>
+                            <td>HTML Parser, Markdown Parser, Adobe PDF</td>
+                            <td>"PDF", "Parser", "Unstructured"</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>2. Prompt Composer</h4>
+                <p>Prompt Composer is a dedicated development environment for creating and testing prompts. Accessed from within Prompt Generator Snaps.</p>
+
+                <h4>3. Agent Visualizer</h4>
+                <p>Agent Visualizer is your debugging command center for understanding how agents execute. It provides both visual diagrams and detailed execution logs.</p>
+
+                <h4>Key Snaps You'll Use Today</h4>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Snap</th>
+                            <th>Purpose</th>
+                            <th>When to Use</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Agent Snap</strong></td>
+                            <td>Consolidates tool calling + chat completions</td>
+                            <td>Core of every agent pipeline</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Prompt Generator</strong></td>
+                            <td>Creates prompts with Mustache templating</td>
+                            <td>Formatting prompts for the LLM</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Multi Pipeline Function Generator</strong></td>
+                            <td>Defines tools as pipelines for the LLM</td>
+                            <td>Creating tool definitions</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pipeline Execute</strong></td>
+                            <td>Calls child pipelines</td>
+                            <td>Invoking tool pipelines</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Salesforce Read</strong></td>
+                            <td>Queries Salesforce objects</td>
+                            <td>In our tool pipelines</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Navigation Best Practices</h4>
+
+                <div class="callout callout-success">
+                    <div class="callout-title">DO:</div>
+                    <ul>
+                        <li>Build tool pipelines first, then work backwards to the agent</li>
+                        <li>Test each tool pipeline individually before integration</li>
+                        <li>Use Prompt Composer for iterative prompt refinement</li>
+                        <li>Check Agent Visualizer after every test run</li>
+                    </ul>
+                </div>
+
+                <div class="callout callout-danger">
+                    <div class="callout-title">DON'T:</div>
+                    <ul>
+                        <li>Don't start with the agent pipeline (makes debugging harder)</li>
+                        <li>Don't skip validation of individual tool pipelines</li>
+                        <li>Don't forget to check Agent Visualizer when things don't work</li>
+                    </ul>
+                </div>
+
+                <div class="pro-tip">
+                    When building agents, always have two browser tabs open: one for your pipeline canvas and one for the SnapLogic documentation. The Snap reference pages contain essential configuration details you'll need frequently.
+                </div>
+
+                <h4>Documentation Links</h4>
+                <p>
+                    <a href="https://docs.snaplogic.com/agentcreator/agentcreator-workflow.html" class="doc-link" target="_blank">Getting Started Workflow</a>
+                    <a href="https://docs.snaplogic.com/agentcreator/prompt-composer/agentcreator-promptcomposer-about.html" class="doc-link" target="_blank">Prompt Composer</a>
+                    <a href="https://docs.snaplogic.com/agentcreator/agentvis/agentcreator-agent-visualizer-about.html" class="doc-link" target="_blank">Agent Visualizer</a>
+                    <a href="https://docs.snaplogic.com/agentcreator/agentvis/agentvis-ui-reference.html" class="doc-link" target="_blank">Visualizer UI Reference</a>
+                </p>
+            </section>
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- MODULE 2: PROMPT COMPOSER ESSENTIALS -->
+        <!-- ============================================================ -->
+        <section class="module" id="module-2">
+            <div class="module-header">
+                <h2>Module 2: Prompt Composer Essentials</h2>
+                <div class="module-meta">
+                    <span>Duration: 15 minutes</span>
+                    <span>Type: Instructor Demo</span>
+                </div>
+            </div>
+
+            <p>Quick overview of Prompt Composer - we'll use it throughout the hands-on exercises.</p>
+
+            <!-- Section 2.1: Launching Prompt Composer -->
+            <section id="m2-launching">
+                <h3>2.1 Launching Prompt Composer</h3>
+
+                <p>Prompt Composer is your dedicated workspace for developing, testing, and refining prompts. Unlike traditional prompt development where you write, save, run, and check results separately, Prompt Composer provides an integrated environment where you can see your data, write your prompt, and test against a real LLM - all in one view.</p>
+
+                <div class="key-concept">
+                    <h5>Key Concept: Prompt Composer Lives Inside Snaps</h5>
+                    <p>Prompt Composer isn't a separate application - it's accessed from within <strong>Prompt Generator Snaps</strong>. Each LLM provider has its own Prompt Generator Snap (OpenAI, Azure OpenAI, Amazon Bedrock, Google GenAI), but they all share the same Prompt Composer interface.</p>
+                </div>
+
+                <h4>Pipeline Structure for Prompt Composer</h4>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">Minimum Pipeline for Prompt Composer</div>
+                    <div class="mermaid">
+flowchart LR
+    A[Data Source<br/>JSON Generator] --> B[Prompt Generator<br/>Bedrock]
+    B --> C[LLM Snap<br/>Agent or Chat]
+
+    style A fill:#e3f2fd
+    style B fill:#fff3e0
+    style C fill:#e8f5e9
+                    </div>
+                </div>
+
+                <h4>Step-by-Step: Launching Prompt Composer</h4>
+                <ol>
+                    <li>Create a pipeline with a data source → Prompt Generator → LLM Snap</li>
+                    <li>Click <strong>Validate</strong> (required before opening)</li>
+                    <li>Click on your <strong>Prompt Generator Snap</strong></li>
+                    <li>In the settings panel, click <strong>"Open Prompt Composer"</strong></li>
+                </ol>
+
+                <div class="pro-tip">
+                    If the "Open Prompt Composer" button is grayed out, your pipeline hasn't been validated yet. Click Validate first, then try again.
+                </div>
+
+                <h4>Documentation Links</h4>
+                <p>
+                    <a href="https://docs.snaplogic.com/agentcreator/prompt-composer/agentcreator-promptcomposer-launch.html" class="doc-link" target="_blank">Launch Prompt Composer Guide</a>
+                </p>
+            </section>
+
+            <!-- Section 2.2: The 6-Panel Interface -->
+            <section id="m2-interface">
+                <h3>2.2 The 6-Panel Interface</h3>
+
+                <p>When Prompt Composer opens, you'll see a sophisticated interface divided into <strong>three main sections with six panels</strong>. Understanding each panel's purpose is key to efficient prompt development.</p>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">Prompt Composer 6-Panel Layout</div>
+                    <div class="mermaid">
+flowchart TB
+    subgraph LEFT["LEFT SECTION"]
+        direction TB
+        IS["<b>Input Schema</b><br/>Data structure & types"]
+        ID["<b>Input Data</b><br/>Actual values from upstream"]
+    end
+
+    subgraph CENTER["CENTER SECTION"]
+        direction TB
+        PE["<b>Prompt Editor</b><br/>Write Mustache templates"]
+        SA["<b>SnapGPT Assistant</b><br/>AI-powered prompt help"]
+    end
+
+    subgraph RIGHT["RIGHT SECTION"]
+        direction TB
+        RT["<b>Rendered Template</b><br/>Final prompt preview"]
+        LR["<b>LLM Response</b><br/>Model output"]
+    end
+
+    style LEFT fill:#e3f2fd
+    style CENTER fill:#fff3e0
+    style RIGHT fill:#e8f5e9
+                    </div>
+                </div>
+
+                <h4>Left Section: Understanding Your Data</h4>
+                <ul>
+                    <li><strong>Input Schema:</strong> Shows field names, hierarchy, and data types - tells you what fields are available for <code>{{field.name}}</code> references</li>
+                    <li><strong>Input Data:</strong> Shows actual values flowing through your pipeline - preview what data your prompt will work with</li>
+                </ul>
+
+                <h4>Center Section: Creating Your Prompt</h4>
+                <ul>
+                    <li><strong>Prompt Editor:</strong> Write your prompt using Mustache syntax. Features syntax highlighting and auto-completion from your schema</li>
+                    <li><strong>SnapGPT Assistant:</strong> AI-powered prompt generation - describe what you want in plain English!</li>
+                </ul>
+
+                <h4>Right Section: Testing Your Prompt</h4>
+                <ul>
+                    <li><strong>Rendered Template:</strong> Shows the final prompt after Mustache variables are replaced with actual values</li>
+                    <li><strong>LLM Response:</strong> Shows the actual response from the LLM after clicking "Update Response"</li>
+                </ul>
+
+                <h4>Interface Controls</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Control</th>
+                            <th>Location</th>
+                            <th>Function</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Font Size</strong></td>
+                            <td>Toolbar</td>
+                            <td>Adjust text size across all panels</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Collapse (−)</strong></td>
+                            <td>Each panel</td>
+                            <td>Hide panels to focus on specific areas</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Validate</strong></td>
+                            <td>Bottom</td>
+                            <td>Save changes and validate pipeline</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Update Response</strong></td>
+                            <td>Bottom</td>
+                            <td>Save, validate, and send prompt to LLM</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Done</strong></td>
+                            <td>Bottom</td>
+                            <td>Close and save all changes</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Documentation Links</h4>
+                <p>
+                    <a href="https://docs.snaplogic.com/agentcreator/prompt-composer/agentcreator-promptcomposer-ref.html" class="doc-link" target="_blank">Prompt Composer Layout Reference</a>
+                </p>
+            </section>
+
+            <!-- Section 2.3: SnapGPT for Prompts -->
+            <section id="m2-snapgpt">
+                <h3>2.3 SnapGPT for Prompts</h3>
+
+                <p>SnapGPT for Prompts is an AI assistant built into Prompt Composer that eliminates the need to learn Mustache syntax or master prompt engineering. You describe what you want in <strong>plain English</strong>, and SnapGPT generates a properly formatted prompt template for you.</p>
+
+                <div class="key-concept">
+                    <h5>How SnapGPT Works Behind the Scenes</h5>
+                    <p>When you send a request to SnapGPT, it receives:</p>
+                    <ul>
+                        <li>Your natural language description</li>
+                        <li>The current prompt (if any exists)</li>
+                        <li>Your input schema (so it knows what fields are available)</li>
+                    </ul>
+                    <p><strong>Important:</strong> Your actual input <em>data</em> is NOT sent to SnapGPT unless you explicitly include it - only the schema (field names and types).</p>
+                </div>
+
+                <h4>Using SnapGPT: Step-by-Step</h4>
+                <ol>
+                    <li>In Prompt Composer, find the <strong>SnapGPT Assistant</strong> panel (center section)</li>
+                    <li>Type a natural language description of the prompt you need</li>
+                    <li>Press Enter or click Send</li>
+                    <li>Review the generated prompt in the Prompt Editor</li>
+                    <li>Test with "Update Response" and refine as needed</li>
+                </ol>
+
+                <h4>SnapGPT Capabilities</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Capability</th>
+                            <th>Example Request</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Generate New Prompts</strong></td>
+                            <td>"Create a prompt that summarizes the opportunity details"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Modify Existing Prompts</strong></td>
+                            <td>"Make the response more formal and add bullet points"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Add Conditions</strong></td>
+                            <td>"Add a VIP greeting if the deal size is over $100k"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Format Output</strong></td>
+                            <td>"Structure the response as JSON with summary and actions"</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Iterative Refinement</h4>
+                <p>SnapGPT shines when used iteratively. Start simple, test, and refine:</p>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">Iterative Prompt Development Workflow</div>
+                    <div class="mermaid">
+flowchart LR
+    A[Describe in<br/>plain English] --> B[SnapGPT<br/>generates prompt]
+    B --> C[Test with<br/>Update Response]
+    C --> D{Result<br/>acceptable?}
+    D -->|No| E[Refine request<br/>to SnapGPT]
+    E --> B
+    D -->|Yes| F[Done!]
+
+    style A fill:#e3f2fd
+    style B fill:#fff3e0
+    style C fill:#e8f5e9
+    style F fill:#c8e6c9
+                    </div>
+                </div>
+
+                <div class="pro-tip">
+                    We'll use SnapGPT during the hands-on to quickly iterate on our agent's behavior. Use the navigation arrows in the Prompt Editor to move between versions if you need to go back.
+                </div>
+
+                <h4>Documentation Links</h4>
+                <p>
+                    <a href="https://docs.snaplogic.com/agentcreator/prompt-composer/agentcreator-promptcomposer-assistance.html" class="doc-link" target="_blank">SnapGPT for Prompts Guide</a>
+                </p>
+            </section>
+
+            <!-- Section 2.4: Mustache Basics -->
+            <section id="m2-mustache">
+                <h3>2.4 Mustache Syntax Basics</h3>
+
+                <p>While SnapGPT can generate prompts for you, understanding <strong>Mustache syntax</strong> helps you read, modify, and troubleshoot templates. Mustache is a "logic-less" templating language - it uses special tags to insert data into text.</p>
+
+                <div class="key-concept">
+                    <h5>Why "Mustache"?</h5>
+                    <p>The syntax uses double curly braces <code>{{ }}</code> which look like a sideways mustache. Hence the name!</p>
+                </div>
+
+                <h4>Basic Variables</h4>
+                <p>The simplest Mustache syntax inserts a field value into your prompt:</p>
+                <pre><code>Hello {{name}}, welcome to our service!</code></pre>
+                <p>If your data contains <code>{"name": "John"}</code>, this renders as: <code>Hello John, welcome to our service!</code></p>
+
+                <h4>Nested Fields (Dot Notation)</h4>
+                <p>Access nested objects using dots:</p>
+                <pre><code>Customer: {{customer.firstName}} {{customer.lastName}}
+Email: {{customer.email}}</code></pre>
+
+                <h4>Iterating Over Arrays</h4>
+                <p>Use <code>{{#array}}</code> to start a loop and <code>{{/array}}</code> to end it:</p>
+                <pre><code>Your opportunities:
+{{#opportunities}}
+- {{Name}}: ${{Amount}} ({{StageName}})
+{{/opportunities}}</code></pre>
+
+                <h4>Conditional Sections</h4>
+                <p>Show content only if a field exists and is "truthy":</p>
+                <pre><code>{{#isPremiumCustomer}}
+Thank you for being a Premium customer!
+{{/isPremiumCustomer}}</code></pre>
+
+                <h4>Mustache Syntax Quick Reference</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Syntax</th>
+                            <th>Purpose</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>{{field}}</code></td>
+                            <td>Insert field value</td>
+                            <td><code>{{customer.name}}</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>{{#field}}...{{/field}}</code></td>
+                            <td>Loop or conditional (if truthy)</td>
+                            <td><code>{{#items}}{{name}}{{/items}}</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>{{^field}}...{{/field}}</code></td>
+                            <td>Inverted (if falsy/missing)</td>
+                            <td><code>{{^hasData}}No data{{/hasData}}</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>{{.}}</code></td>
+                            <td>Current item in loop</td>
+                            <td><code>{{#tags}}{{.}}{{/tags}}</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>{{! comment }}</code></td>
+                            <td>Comment (not rendered)</td>
+                            <td><code>{{! This is a comment }}</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="pro-tip">
+                    Use the <strong>Rendered Template</strong> panel to verify your Mustache syntax is working correctly. If a variable shows as blank or the literal <code>{{field}}</code> text, check your field names against the Input Schema.
+                </div>
+
+                <h4>Documentation Links</h4>
+                <p>
+                    <a href="https://docs.snaplogic.com/agentcreator/prompt-composer/agentcreator-promptcomposer-snapgpt-prompts.html" class="doc-link" target="_blank">SnapGPT for Prompts</a>
+                    <a href="https://community.snaplogic.com/t5/snaplogic-technical-blog/using-mustache-templating-with-the-prompt-generator-snap-in/ba-p/26236" class="doc-link" target="_blank">Mustache Templating Blog Post</a>
+                </p>
+            </section>
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- MODULE 3: BUILD YOUR SALES AGENT -->
+        <!-- ============================================================ -->
+        <section class="module" id="module-3">
+            <div class="module-header">
+                <h2>Module 3: Build Your Sales Agent</h2>
+                <div class="module-meta">
+                    <span>Duration: 2 hours</span>
+                    <span>Type: Hands-On</span>
+                </div>
+            </div>
+
+            <div class="learning-objectives">
+                <h4>What You'll Build</h4>
+                <ul>
+                    <li>A working AI agent with tool-calling capabilities</li>
+                    <li>Email notification tool (pre-configured)</li>
+                    <li>Salesforce query tool (progressively enhanced)</li>
+                    <li>Multi-turn, multi-tool conversations</li>
+                </ul>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- Section 3.1: Your First Agent + Email Tool -->
+            <!-- ============================================================ -->
+            <section id="m3-first-agent">
+                <h3>3.1 Your First Agent + Email Tool</h3>
+
+                <div class="acme-scenario">
+                    <h4>The Goal</h4>
+                    <p>Create a basic agent that can answer questions AND send results by email. We'll start simple to understand the pattern, then add Salesforce capabilities.</p>
+                </div>
+
+                <h4>Agent Pipeline Architecture</h4>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">What We're Building</div>
+                    <div class="mermaid">
+flowchart LR
+    FG[Multi Pipeline<br/>Function Generator<br/>Email Tool] --> PG[Prompt Generator<br/>User Prompt]
+    PG --> AS[Bedrock Agent Snap<br/>Claude Sonnet 4.5]
+    AS --> OUT[Output]
+
+    style AS fill:#0066cc,color:#fff
+    style FG fill:#00a3e0,color:#fff
+                    </div>
+                </div>
+
+                <div class="hands-on">
+                    <h4>Step 1: Create Your Agent Pipeline</h4>
+
+                    <div class="step-box">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Create a New Pipeline</h4>
+                            <ol>
+                                <li>In Designer, create a new pipeline named <code>YOURNAME_sales_agent</code> (replace YOURNAME with your initials to avoid duplicates in shared project)</li>
+                                <li>This will be your main agent pipeline</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Add Multi Pipeline Function Generator</h4>
+                            <ol>
+                                <li>Search for <strong>Multi Pipeline Function Generator</strong></li>
+                                <li>Drag it onto the canvas</li>
+                                <li>This defines what tools the agent can use</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Add Prompt Generator</h4>
+                            <ol>
+                                <li>Search for <strong>Amazon Bedrock Prompt Generator</strong> in the Snap palette</li>
+                                <li>Drag it onto the canvas and connect it after the Function Generator</li>
+                                <li>This is where you'll type your questions to the agent</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Add the Agent Snap</h4>
+                            <ol>
+                                <li>Search for <strong>Amazon Bedrock Converse API Agent</strong></li>
+                                <li>Drag it onto the canvas and connect it after Prompt Generator</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>Final Pipeline Structure</h4>
+                            <p>Your pipeline should look like:</p>
+                            <pre><code>Multi Pipeline Function Generator --> Prompt Generator --> Agent Snap</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Configure the Email Tool</h4>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">Pre-Configured Email Tool</div>
+                    <p>Your instructor has already set up a <code>NotifyByEmail</code> tool pipeline in your project space. You just need to reference it in your Function Generator.</p>
+                </div>
+
+                <div class="hands-on">
+                    <h4>Step 2: Configure Multi Pipeline Function Generator</h4>
+
+                    <div class="step-box">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Open Function Generator Settings</h4>
+                            <ol>
+                                <li>Click on the Multi Pipeline Function Generator snap</li>
+                                <li>Open its settings panel</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Add the Email Tool</h4>
+                            <p>In the <strong>Pipeline path</strong> field, enter:</p>
+                            <pre><code>NotifyByEmail</code></pre>
+                            <p>The tool's parameters are already configured in the tool pipeline itself.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Configure the Prompt</h4>
+
+                <div class="hands-on">
+                    <h4>Step 3: Write Your First Prompt</h4>
+
+                    <div class="step-box">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Open Prompt Composer</h4>
+                            <ol>
+                                <li>Validate your pipeline first</li>
+                                <li>Click on the Prompt Generator snap</li>
+                                <li>Click <strong>"Open Prompt Composer"</strong></li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Write Your Prompt (User Message)</h4>
+                            <p>In the Prompt Editor, type your question directly:</p>
+                            <pre><code>Who is the Prime Minister of the UK?</code></pre>
+                            <p><em>Note: We're typing the question directly in the Prompt snap - no JSON Generator needed!</em></p>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Configure the Agent Snap</h4>
+
+                <div class="hands-on">
+                    <h4>Step 4: Configure Agent Snap Settings</h4>
+
+                    <div class="step-box">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Open Agent Snap Settings</h4>
+                            <table>
+                                <tr>
+                                    <th>Setting</th>
+                                    <th>Value</th>
+                                </tr>
+                                <tr>
+                                    <td><strong>Account</strong></td>
+                                    <td>Select your Bedrock account</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Model ID</strong></td>
+                                    <td><code>global.anthropic.claude-sonnet-4-5-20250929-v1:0</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Max Iterations</strong></td>
+                                    <td><code>10</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Messages</strong></td>
+                                    <td><code>$messages</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tools</strong></td>
+                                    <td><code>$tools</code></td>
+                                </tr>
+                            </table>
+                            <p><em>The <code>$messages</code> and <code>$tools</code> fields map to the output from Prompt Generator and Function Generator.</em></p>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Test: Basic Question</h4>
+
+                <div class="hands-on">
+                    <h4>Step 5: First Test Run</h4>
+                    <ol>
+                        <li>Save and validate the pipeline</li>
+                        <li>Click <strong>Execute</strong></li>
+                        <li>Check the output - you should get an answer about the UK Prime Minister</li>
+                    </ol>
+
+                    <div class="result-success">
+                        The agent should answer your question. No email sent yet - we didn't ask for one!
+                    </div>
+                </div>
+
+                <h4>Test: Question with Email</h4>
+
+                <div class="hands-on">
+                    <h4>Step 6: Test Email Capability</h4>
+
+                    <p>Update your User Message in Prompt Composer:</p>
+                    <pre><code>Who is the Prime Minister of the UK? Send me the result by email to your-email</code></pre>
+
+                    <ol>
+                        <li>Click <strong>Done</strong> to save</li>
+                        <li>Validate and execute</li>
+                        <li>Watch the agent call the <code>send_email</code> function</li>
+                        <li>Check your inbox!</li>
+                    </ol>
+
+                    <div class="result-success">
+                        You should receive an email with the answer. Congratulations - your agent can take actions!
+                    </div>
+                </div>
+
+                <div class="callout callout-success">
+                    <div class="callout-title">Checkpoint: First Agent Complete!</div>
+                    <p>You've built an agent that can:</p>
+                    <ul>
+                        <li>Answer general knowledge questions</li>
+                        <li>Send results by email when asked</li>
+                        <li>Decide autonomously when to use tools</li>
+                    </ul>
+                    <p><strong>Next:</strong> Let's make it useful for sales - add Salesforce access!</p>
+                </div>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- Section 3.2: Add Salesforce (by ID) -->
+            <!-- ============================================================ -->
+            <section id="m3-salesforce-basic">
+                <h3>3.2 Add Salesforce Access (by ID)</h3>
+
+                <div class="acme-scenario">
+                    <h4>The Challenge</h4>
+                    <p>Your sales team asks: <em>"What are the opportunities currently in negotiation?"</em></p>
+                    <p>Let's try it with our current agent...</p>
+                </div>
+
+                <div class="hands-on">
+                    <h4>Test: Sales Question (Expected Failure)</h4>
+
+                    <p>Update your User Message in Prompt Composer:</p>
+                    <pre><code>What opportunities do we have in the Negotiation stage?</code></pre>
+
+                    <ol>
+                        <li>Execute the pipeline</li>
+                        <li>Observe the response...</li>
+                    </ol>
+
+                    <div class="result-fail">
+                        The agent doesn't have access to Salesforce! It can't answer sales questions. We need to build a Salesforce tool.
+                    </div>
+                </div>
+
+                <h4>Create the Salesforce Tool Pipeline</h4>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">Salesforce Tool Pipeline (Version 1: By ID)</div>
+                    <div class="mermaid">
+flowchart LR
+    INPUT[Input from Agent<br/>opportunity_id] --> SF[Salesforce Read<br/>Query by ID]
+    SF --> OUTPUT[Return to Agent]
+
+    style SF fill:#00a3e0,color:#fff
+                    </div>
+                </div>
+
+                <div class="hands-on">
+                    <h4>Step 1: Create the Tool Pipeline</h4>
+
+                    <div class="step-box">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Create New Pipeline</h4>
+                            <ol>
+                                <li>Create a new pipeline named <code>YOURNAME_get_opportunity_by_id</code> (use your initials prefix for uniqueness)</li>
+                                <li>Add a <strong>Salesforce Read</strong> snap</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Configure Salesforce Read</h4>
+                            <table>
+                                <tr>
+                                    <th>Setting</th>
+                                    <th>Value</th>
+                                </tr>
+                                <tr>
+                                    <td><strong>Account</strong></td>
+                                    <td>Select your Salesforce account</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>SObject</strong></td>
+                                    <td><code>Opportunity</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Where condition</strong></td>
+                                    <td><code>="Id = '" + $opportunity_id + "'"</code></td>
+                                </tr>
+                            </table>
+                            <p><em>Note: The expression concatenates the ID value into a valid SOQL WHERE clause.</em></p>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Add JSON Generator for Testing</h4>
+                            <p>The agent sends data as document fields, not pipeline parameters. To test the tool pipeline independently, add a JSON Generator at the start:</p>
+                            <ol>
+                                <li>Add a <strong>JSON Generator</strong> snap before Salesforce Read</li>
+                                <li>Configure it with sample input:</li>
+                            </ol>
+                            <pre><code>{
+  "opportunity_id": "006J5000002HPvIIAW"
+}</code></pre>
+                            <div class="callout callout-warning">
+                                <div class="callout-title">Important</div>
+                                <p>Remove the JSON Generator before connecting this tool to your agent. The agent will provide the input data.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Test the Tool Pipeline</h4>
+                            <ol>
+                                <li>Validate the pipeline</li>
+                                <li>Execute and verify you get opportunity data back</li>
+                                <li>Once working, <strong>delete the JSON Generator</strong></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Connect Tool to Agent</h4>
+
+                <div class="hands-on">
+                    <h4>Step 2: Add Salesforce Tool to Agent</h4>
+
+                    <ol>
+                        <li>Go back to your <code>sales_agent</code> pipeline</li>
+                        <li>Open the Multi Pipeline Function Generator settings</li>
+                        <li>Add a second pipeline path for your new tool:</li>
+                    </ol>
+
+                    <pre><code>get_opportunity_by_id</code></pre>
+
+                    <p>The function name, description, and parameters are read from the tool pipeline configuration.</p>
+                </div>
+
+                <div class="callout callout-warning">
+                    <div class="callout-title">Wait... Is This Good Enough?</div>
+                    <p>We can now look up opportunities <em>by ID</em>. But our users don't know IDs - they ask questions like:</p>
+                    <ul>
+                        <li>"What opps are in negotiation?"</li>
+                        <li>"Show me deals over $100K"</li>
+                        <li>"Who are the contacts on the ACME account?"</li>
+                    </ul>
+                    <p><strong>We need a smarter tool!</strong> Let's make the agent generate its own WHERE conditions.</p>
+                </div>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- Section 3.3: Flexible WHERE + LIMIT -->
+            <!-- ============================================================ -->
+            <section id="m3-salesforce-flexible">
+                <h3>3.3 Flexible WHERE Conditions + LIMIT</h3>
+
+                <div class="key-concept">
+                    <h5>The Key Insight</h5>
+                    <p>AI agents don't need us to spoonfeed them IDs. Claude <strong>knows Salesforce</strong> - it can generate SOQL WHERE conditions on its own! We just need to give it the freedom to do so.</p>
+                </div>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">Salesforce Tool Pipeline (Version 2: Flexible Query)</div>
+                    <div class="mermaid">
+flowchart LR
+    INPUT[Input from Agent<br/>where_condition<br/>limit_value] --> SF[Salesforce Read<br/>Dynamic Query]
+    SF --> OUTPUT[Return to Agent]
+
+    style SF fill:#00a3e0,color:#fff
+                    </div>
+                </div>
+
+                <div class="hands-on">
+                    <h4>Step 1: Upgrade the Tool Pipeline</h4>
+
+                    <div class="step-box">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Modify Salesforce Read Configuration</h4>
+                            <p>Update your tool pipeline (or create a new one called <code>YOURNAME_query_opportunities</code>):</p>
+                            <table>
+                                <tr>
+                                    <th>Setting</th>
+                                    <th>Value</th>
+                                </tr>
+                                <tr>
+                                    <td><strong>SObject</strong></td>
+                                    <td><code>Opportunity</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Where condition</strong></td>
+                                    <td><code>=$where_condition</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Limit</strong></td>
+                                    <td><code>=$limit_value</code></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Add JSON Generator for Testing</h4>
+                            <p>The agent sends data as document fields. To test independently, add a JSON Generator at the start:</p>
+                            <pre><code>{
+  "where_condition": "StageName = 'Negotiation/Review'",
+  "limit_value": 10
+}</code></pre>
+                            <div class="callout callout-warning">
+                                <div class="callout-title">Remember</div>
+                                <p>Remove the JSON Generator before connecting this tool to your agent!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Test the Tool Pipeline</h4>
+                            <ol>
+                                <li>Validate and execute</li>
+                                <li>You should get opportunities in negotiation!</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Update the Agent's Prompt</h4>
+
+                <div class="hands-on">
+                    <h4>Step 2: Enhance Agent Instructions</h4>
+
+                    <p>Go back to your agent pipeline, open Prompt Composer and update the prompt:</p>
+                    <pre><code>You are a helpful AI sales assistant for ACME API Platform.
+
+You have access to Salesforce data and can:
+1. Query opportunities using SOQL WHERE conditions
+2. Send reports and information via email
+
+When asked about sales data, use the query_opportunities function with appropriate WHERE conditions.
+Common stage names: 'Prospecting', 'Qualification', 'Needs Analysis', 'Value Proposition', 'Negotiation/Review', 'Closed Won', 'Closed Lost'
+
+Always limit results to a reasonable number (10-20) unless asked for more.
+
+Be concise and professional in your responses.</code></pre>
+                </div>
+
+                <h4>Test: Natural Language Sales Queries</h4>
+
+                <div class="hands-on">
+                    <h4>Step 3: Test with Sales Questions</h4>
+
+                    <p>Update your User Message:</p>
+                    <pre><code>What opportunities do we have in Negotiation stage?</code></pre>
+
+                    <div class="result-success">
+                        The agent should generate <code>WHERE StageName = 'Negotiation/Review'</code> and return matching opportunities!
+                    </div>
+
+                    <p>Try more complex queries:</p>
+                    <pre><code>Show me all deals over $50,000 that are expected to close this quarter</code></pre>
+
+                    <div class="result-success">
+                        Claude knows Salesforce field names and can construct complex WHERE clauses!
+                    </div>
+                </div>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">Why LIMIT is Important</div>
+                    <p>In AI use cases, you typically don't want to return thousands of records. The LIMIT parameter prevents token explosion and keeps responses manageable. Always set a reasonable default.</p>
+                </div>
+
+                <div class="callout callout-success">
+                    <div class="callout-title">Checkpoint: Smart Salesforce Agent!</div>
+                    <p>Your agent can now:</p>
+                    <ul>
+                        <li>Understand natural language sales questions</li>
+                        <li>Generate appropriate SOQL WHERE conditions</li>
+                        <li>Query Salesforce dynamically</li>
+                        <li>Send results by email</li>
+                    </ul>
+                    <p><strong>Next:</strong> Let's make it query ANY Salesforce object!</p>
+                </div>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- Section 3.4: Dynamic Objects (Multi-Turn) -->
+            <!-- ============================================================ -->
+            <section id="m3-multi-object">
+                <h3>3.4 Dynamic Objects: Multi-Turn, Multi-Tool Agent</h3>
+
+                <div class="acme-scenario">
+                    <h4>The Ultimate Challenge</h4>
+                    <p>Your sales VP asks: <em>"Do we have C-level access on all the opportunities in negotiation? Who do we need to reach out to? Send me a risk report by email."</em></p>
+                    <p>This requires:</p>
+                    <ul>
+                        <li>Query Opportunities (find ones in negotiation)</li>
+                        <li>Query Contacts (find who's associated with those accounts)</li>
+                        <li>Analyze the data (identify C-level gaps)</li>
+                        <li>Send email (compile and deliver the report)</li>
+                    </ul>
+                    <p><strong>Let's make the object dynamic!</strong></p>
+                </div>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">Salesforce Tool Pipeline (Version 3: Any Object)</div>
+                    <div class="mermaid">
+flowchart LR
+    INPUT[Input from Agent<br/>sobject<br/>where_condition<br/>limit_value] --> SF[Salesforce Read<br/>Dynamic Object + Query]
+    SF --> OUTPUT[Return to Agent]
+
+    style SF fill:#00a3e0,color:#fff
+                    </div>
+                </div>
+
+                <div class="hands-on">
+                    <h4>Step 1: Make Object Dynamic</h4>
+
+                    <div class="step-box">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Update Salesforce Read Configuration</h4>
+                            <table>
+                                <tr>
+                                    <th>Setting</th>
+                                    <th>Value</th>
+                                </tr>
+                                <tr>
+                                    <td><strong>SObject</strong></td>
+                                    <td><code>=$sobject</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Where condition</strong></td>
+                                    <td><code>=$where_condition</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Limit</strong></td>
+                                    <td><code>=$limit_value</code></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Add JSON Generator for Testing</h4>
+                            <p>Test with Contact object by adding JSON Generator at the start:</p>
+                            <pre><code>{
+  "sobject": "Contact",
+  "where_condition": "Title LIKE '%CEO%' OR Title LIKE '%CTO%' OR Title LIKE '%CFO%'",
+  "limit_value": 20
+}</code></pre>
+                            <div class="callout callout-warning">
+                                <div class="callout-title">Remember</div>
+                                <p>Remove the JSON Generator before connecting this tool to your agent!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Test the Tool Pipeline</h4>
+                            <p>Validate and execute - you should get C-level contacts!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Enhanced Prompt</h4>
+
+                <div class="hands-on">
+                    <h4>Step 2: Update Agent Instructions for Multi-Object</h4>
+
+                    <p>Update your prompt:</p>
+                    <pre><code>You are a helpful AI sales assistant for ACME API Platform.
+
+You have access to Salesforce data and can:
+1. Query any Salesforce object (Account, Contact, Opportunity, Lead, Case, etc.)
+2. Send reports and information via email
+
+When asked about sales data:
+- Use the query_salesforce function with the appropriate object and WHERE conditions
+- For complex questions, you may need to query multiple objects
+- Think step-by-step about what data you need
+
+Common Salesforce objects and their key fields:
+- Opportunity: Id, Name, StageName, Amount, CloseDate, AccountId
+- Contact: Id, FirstName, LastName, Title, Email, AccountId
+- Account: Id, Name, Industry, Website
+
+When asked to analyze relationships (e.g., contacts for accounts), query both objects and correlate the data.
+
+Always limit results appropriately and be concise in your responses.</code></pre>
+                </div>
+
+                <h4>Test: Complex Multi-Turn Query</h4>
+
+                <div class="hands-on">
+                    <h4>Step 3: The Ultimate Test</h4>
+
+                    <p>Try this complex, multi-step query:</p>
+                    <pre><code>Do we have C-level access on all the opportunities in negotiation? Tell me where we have risk and send me a report by email to your-email</code></pre>
+
+                    <p><strong>Watch what the agent does:</strong></p>
+                    <ol>
+                        <li>Queries Opportunities in Negotiation stage</li>
+                        <li>Extracts the AccountIds</li>
+                        <li>Queries Contacts for those accounts, filtering for C-level titles</li>
+                        <li>Analyzes which accounts lack C-level contacts</li>
+                        <li>Composes a risk report</li>
+                        <li>Sends it via email</li>
+                    </ol>
+
+                    <div class="result-success">
+                        <strong>Multi-turn, multi-tool agentic AI handling complex tasks autonomously!</strong> This is the power of well-designed agents.
+                    </div>
+                </div>
+
+                <div class="callout callout-success">
+                    <div class="callout-title">Module 3 Complete!</div>
+                    <p>You've built a production-grade sales agent that can:</p>
+                    <ul>
+                        <li>Query any Salesforce object dynamically</li>
+                        <li>Generate its own SOQL WHERE conditions from natural language</li>
+                        <li>Handle multi-step reasoning tasks</li>
+                        <li>Take actions (send emails) autonomously</li>
+                        <li>Correlate data across multiple objects</li>
+                    </ul>
+                    <p><strong>This is real agentic AI!</strong></p>
+                </div>
+            </section>
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- MODULE 4: DEBUGGING -->
+        <!-- ============================================================ -->
+        <section class="module" id="module-4">
+            <div class="module-header">
+                <h2>Module 4: Debugging with Agent Visualizer</h2>
+                <div class="module-meta">
+                    <span>Duration: 20 minutes</span>
+                    <span>Type: Hands-On</span>
+                </div>
+            </div>
+
+            <!-- Section 4.1: Intro -->
+            <section id="m4-intro">
+                <h3>4.1 Agent Visualizer Introduction</h3>
+
+                <p>When your agent doesn't behave as expected, how do you figure out what went wrong? Did the LLM not understand the request? Did it call the wrong tool? Did the tool fail? <strong>Agent Visualizer</strong> answers all these questions by providing a complete trace of your agent's execution.</p>
+
+                <div class="concept-box">
+                    <h4>What is Agent Visualizer?</h4>
+                    <p><strong>Agent Visualizer</strong> is a debugging tool embedded directly in the Agent Snap that lets you see exactly what happened during agent execution. It provides:</p>
+                    <ul>
+                        <li><strong>Visual diagram</strong> of the agent flow and tool calls</li>
+                        <li><strong>Detailed logs</strong> of each step in the execution</li>
+                        <li><strong>Color-coded status</strong> showing success (green) or failure (red)</li>
+                        <li><strong>Interactive navigation</strong> between diagram and logs</li>
+                    </ul>
+                </div>
+
+                <h4>How to Access Agent Visualizer</h4>
+
+                <div class="step-box">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h5>Run Your Agent Pipeline</h5>
+                        <p>Validate and execute your agent pipeline with a test input.</p>
+                    </div>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h5>Open the Agent Snap</h5>
+                        <p>Click on the Agent Snap in your pipeline to open its Settings dialog.</p>
+                    </div>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h5>Click "Visualize Agent Flow"</h5>
+                        <p>Look for the <strong>"Visualize Agent Flow"</strong> button in the Agent Snap settings. Click it to open the Agent Visualizer.</p>
+                    </div>
+                </div>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">Built Into Agent Snap</div>
+                    <p>Agent Visualizer is built into the Agent Snap itself. There is no need to add a separate visualization snap to your pipeline.</p>
+                </div>
+            </section>
+
+            <!-- Section 4.2: Interface -->
+            <section id="m4-interface">
+                <h3>4.2 The Two-Panel Interface</h3>
+
+                <p>Agent Visualizer displays two synchronized panels that work together to help you understand agent behavior.</p>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">Agent Visualizer Interface Structure</div>
+                    <div class="mermaid">
+flowchart LR
+    subgraph "Agent Visualizer Interface"
+        subgraph "Left: Diagram View"
+            D1[Agent Flow]
+            D2[Tool Calls]
+            D3[Status Icons]
+        end
+        subgraph "Right: Log View"
+            L1[REQUEST]
+            L2[REASONING]
+            L3[ACTION]
+            L4[AGENT OUTPUT]
+        end
+        D1 -.->|Click to Navigate| L1
+        D2 -.->|Click to Navigate| L3
+    end
+                    </div>
+                </div>
+
+                <h4>Left Panel: Agent Hierarchy Diagram</h4>
+
+                <p>The diagram view shows a visual representation of your agent's execution:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Agent Box</strong></td>
+                            <td>Represents the main agent (your Agent Pipeline)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tool Boxes</strong></td>
+                            <td>Represent each tool pipeline called by the agent</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Arrows</strong></td>
+                            <td>Show request/response flow between components</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Green Color</strong></td>
+                            <td>Indicates successful execution</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Red Color</strong></td>
+                            <td>Indicates an error occurred</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Right Panel: Detailed Log</h4>
+
+                <p>The log view shows the step-by-step execution record:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Section</th>
+                            <th>What It Shows</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>REQUEST</strong></td>
+                            <td>The user's input prompt that started the interaction</td>
+                        </tr>
+                        <tr>
+                            <td><strong>REASONING</strong></td>
+                            <td>The LLM's thought process - why it decided to take certain actions</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ACTION</strong></td>
+                            <td>Details of each tool call, including <strong>PARAMETERS</strong> (values passed) and <strong>RESULT</strong> (what returned)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AGENT OUTPUT</strong></td>
+                            <td>The final response generated for the user</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Step Numbering</h4>
+
+                <p>Steps are numbered to show execution order and parallelism:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Numbering</th>
+                            <th>Meaning</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Step 1, Step 2, Step 3</strong></td>
+                            <td>Sequential execution</td>
+                            <td>Agent calls tools one after another</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Step 1-1, Step 1-2</strong></td>
+                            <td>Parallel execution</td>
+                            <td>Agent calls multiple tools simultaneously</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">Interactive Navigation</div>
+                    <p>Click any element in the diagram to automatically scroll to the corresponding section in the log. Hover over elements to see relationships highlighted.</p>
+                </div>
+            </section>
+
+            <!-- Section 4.3: Messages Array -->
+            <section id="m4-messages">
+                <h3>4.3 Understanding the Messages Array</h3>
+
+                <p>The Agent Snap outputs a <strong>messages array</strong> that contains the complete conversation history. Understanding this structure is essential for advanced debugging.</p>
+
+                <h4>Message Roles (sl_role)</h4>
+
+                <p>Each message has an <code>sl_role</code> field that identifies its source:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>sl_role</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>USER</strong></td>
+                            <td>Input from the human user</td>
+                            <td>"What opportunities are in negotiation?"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ASSISTANT</strong></td>
+                            <td>Response from the LLM (may include tool calls)</td>
+                            <td>"I'll look that up for you..." or tool_calls array</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TOOL</strong></td>
+                            <td>Result returned from a tool execution</td>
+                            <td>{"Id": "006...", "StageName": "Negotiation/Review"}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Tool Call Structure</h4>
+
+                <p>When the LLM decides to use a tool, the ASSISTANT message contains a <code>tool_calls</code> array:</p>
+
+                <pre><code>{
+  "sl_role": "ASSISTANT",
+  "content": "Let me check that for you.",
+  "tool_calls": [
+    {
+      "id": "call_abc123",
+      "type": "function",
+      "function": {
+        "name": "query_salesforce",
+        "arguments": "{\"sobject\": \"Opportunity\", \"where_condition\": \"StageName = 'Negotiation/Review'\"}"
+      }
+    }
+  ]
+}</code></pre>
+
+                <h4>Tool Response Structure</h4>
+
+                <p>After the tool executes, a TOOL message contains the result:</p>
+
+                <pre><code>{
+  "sl_role": "TOOL",
+  "name": "query_salesforce",
+  "content": "[{\"Id\": \"006J5000002HPvIIAW\", \"Name\": \"Acme Widget Deal\", \"StageName\": \"Negotiation/Review\"}]",
+  "tool_call_id": "call_abc123"
+}</code></pre>
+
+                <div class="concept-box">
+                    <h4>Key Fields to Watch</h4>
+                    <ul>
+                        <li><strong>tool_call_id</strong>: Links the tool response back to the original request</li>
+                        <li><strong>function.name</strong>: Which tool the LLM chose to call</li>
+                        <li><strong>function.arguments</strong>: Parameters the LLM extracted from the user request</li>
+                        <li><strong>content</strong>: The actual data returned by the tool</li>
+                    </ul>
+                </div>
+
+                <div class="pro-tip">
+                    When debugging, always check: (1) Did the LLM call the right tool? (2) With the right parameters? (3) Did the tool return expected data? This narrows down where the problem is.
+                </div>
+            </section>
+
+            <!-- Section 4.4: Troubleshooting -->
+            <section id="m4-troubleshooting">
+                <h3>4.4 Common Issues and Troubleshooting</h3>
+
+                <p>Here are the most common issues you'll encounter and how to diagnose them using Agent Visualizer.</p>
+
+                <h4>Issue 1: LLM Doesn't Call Any Tools</h4>
+
+                <div class="concept-box">
+                    <h4>Symptoms</h4>
+                    <ul>
+                        <li>No ACTION entries in the log</li>
+                        <li>Agent gives a generic response without using tools</li>
+                        <li>ASSISTANT messages have no <code>tool_calls</code> array</li>
+                    </ul>
+                    <h4>Possible Causes</h4>
+                    <ul>
+                        <li>Function definitions not reaching the Agent Snap</li>
+                        <li>Prompt doesn't encourage tool use</li>
+                        <li>User prompt doesn't match any tool's purpose</li>
+                    </ul>
+                    <h4>How to Fix</h4>
+                    <ol>
+                        <li>Check that Function Generator output is connected to Agent Snap</li>
+                        <li>Verify tool definitions appear in the data preview</li>
+                        <li>Update prompt to mention available tools</li>
+                        <li>Try a more explicit user prompt</li>
+                    </ol>
+                </div>
+
+                <h4>Issue 2: Tool Called But Returns Error</h4>
+
+                <div class="concept-box">
+                    <h4>Symptoms</h4>
+                    <ul>
+                        <li>ACTION section shows tool was called</li>
+                        <li>RESULT section shows an error message</li>
+                        <li>Red visualization on the tool in the diagram</li>
+                    </ul>
+                    <h4>Possible Causes</h4>
+                    <ul>
+                        <li>Tool pipeline has a bug</li>
+                        <li>Wrong parameters passed to tool</li>
+                        <li>External service the tool calls is down</li>
+                    </ul>
+                    <h4>How to Fix</h4>
+                    <ol>
+                        <li>Note the PARAMETERS shown in the log</li>
+                        <li>Test the tool pipeline separately with those parameters (using JSON Generator)</li>
+                        <li>Check error views in the tool pipeline</li>
+                        <li>Verify external service connectivity (e.g., Salesforce account)</li>
+                    </ol>
+                </div>
+
+                <h4>Issue 3: Wrong Tool Called</h4>
+
+                <div class="concept-box">
+                    <h4>Symptoms</h4>
+                    <ul>
+                        <li>ACTION shows a different tool than expected</li>
+                        <li>Agent response doesn't match the user's request</li>
+                    </ul>
+                    <h4>Possible Causes</h4>
+                    <ul>
+                        <li>Tool descriptions are ambiguous</li>
+                        <li>Multiple tools with overlapping purposes</li>
+                        <li>User prompt is unclear</li>
+                    </ul>
+                    <h4>How to Fix</h4>
+                    <ol>
+                        <li>Review tool descriptions in Function Generator</li>
+                        <li>Make descriptions more specific and distinct</li>
+                        <li>Add examples in the prompt</li>
+                    </ol>
+                </div>
+
+                <h4>Issue 4: Pipeline Configuration Error</h4>
+
+                <div class="concept-box">
+                    <h4>Symptoms</h4>
+                    <ul>
+                        <li>Error message: "Invalid child pipeline configuration"</li>
+                        <li>Error message: "Child pipeline must have one document input view and one document output view only"</li>
+                    </ul>
+                    <h4>Cause</h4>
+                    <p>Tool pipeline doesn't have exactly one input and one output view.</p>
+                    <h4>How to Fix</h4>
+                    <ol>
+                        <li>Open the tool pipeline</li>
+                        <li>Ensure there's exactly one input (from first Snap)</li>
+                        <li>Ensure there's exactly one output (from final Snap)</li>
+                        <li>Remove any extra input/output views</li>
+                    </ol>
+                </div>
+
+                <h4>Common Error Messages</h4>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Error Message</th>
+                            <th>Meaning</th>
+                            <th>Solution</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>Message payload: messages is undefined</code></td>
+                            <td>No message data reaching Agent Snap</td>
+                            <td>Check Prompt Composer connection</td>
+                        </tr>
+                        <tr>
+                            <td><code>tool_use ids without tool_result blocks</code></td>
+                            <td>Tool was called but no result returned</td>
+                            <td>Check tool pipeline execution</td>
+                        </tr>
+                        <tr>
+                            <td><code>Invalid configuration to execute messages request</code></td>
+                            <td>Agent Snap misconfigured</td>
+                            <td>Review Account and field mappings</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="concept-box">
+                    <h4>Debugging Checklist</h4>
+                    <ol>
+                        <li><strong>Is the tool being called?</strong> Check ACTION entries
+                            <ul><li>No ACTION → Check REASONING, function descriptions, prompt</li></ul>
+                        </li>
+                        <li><strong>Is the tool node red or green?</strong>
+                            <ul>
+                                <li>Red → Pipeline configuration error (Tool Path, account, permissions)</li>
+                                <li>Green → Pipeline ran successfully</li>
+                            </ul>
+                        </li>
+                        <li><strong>What's in the RESULT?</strong>
+                            <ul>
+                                <li>Error message → Check tool pipeline logic</li>
+                                <li>Unexpected data → Check parameters passed, data sources</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- Section 4.5: Record Replay -->
+            <section id="m4-record-replay">
+                <h3>4.5 Debugging Tool Pipelines with Record Replay</h3>
+
+                <p>While Agent Visualizer shows you the agent's thinking process, sometimes you need to debug at a deeper level - understanding exactly what data the Agent Snap sends to your tool pipelines.</p>
+
+                <h4>The Challenge: What Does the Agent Actually Send?</h4>
+
+                <p>When a tool pipeline fails or returns unexpected results, the first question is: "What data did the Agent Snap actually send?" The answer isn't always obvious because:</p>
+                <ul>
+                    <li>The agent extracts parameters from natural language</li>
+                    <li>The data includes metadata fields you might not expect</li>
+                    <li>Field names might not match what you configured</li>
+                </ul>
+
+                <h4>Solution: Record Replay Snap</h4>
+
+                <p>The <strong>Record Replay</strong> snap captures and stores the exact data flowing through your pipeline, allowing you to see precisely what the Agent Snap sends to your tools.</p>
+
+                <h4>Adding Record Replay to Your Tool Pipeline</h4>
+
+                <div class="step-box">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <strong>Open your tool pipeline</strong> (e.g., <code>YOURNAME_get_opportunity_by_id</code>)
+                    </div>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <strong>Search for "Record Replay"</strong> in the Snap palette and drag it onto the canvas
+                    </div>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <strong>Insert it at the START of your pipeline</strong> - before any other Snaps
+                    </div>
+                </div>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">Tool Pipeline with Record Replay</div>
+                    <div class="mermaid">
+flowchart LR
+    AGENT["Agent Snap<br/>(sends parameters)"] --> RR["Record Replay<br/>(captures input)"]
+    RR --> SF[Salesforce Read]
+    SF --> OUT[Output]
+                    </div>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <strong>Configure Record Replay:</strong>
+                        <ul>
+                            <li><strong>Mode</strong>: Set to "Record" during debugging</li>
+                            <li><strong>File location</strong>: Choose where to save captured data (SLDB recommended)</li>
+                            <li><strong>File name</strong>: Use a descriptive name like <code>agent_input_capture.json</code></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <strong>Run your agent</strong> and trigger the tool. Record Replay captures the input.
+                    </div>
+                </div>
+
+                <h4>Understanding the Captured Data</h4>
+
+                <p>When the agent calls your tool, Record Replay captures an <strong>array</strong> with the parameters at the root level plus metadata fields:</p>
+
+                <pre><code>[{
+  "sobject": "Opportunity",
+  "where_condition": "StageName = 'Negotiation/Review'",
+  "limit_value": 10,
+  "sl_tool_name": "query_salesforce",
+  "sl_method": "tools/call"
+}]</code></pre>
+
+                <div class="callout callout-warning">
+                    <div class="callout-title">Array Input</div>
+                    <p>The agent sends an <strong>array</strong> containing your parameters. Your tool pipeline receives this array at the input. The parameters are extracted from the natural language query by the LLM.</p>
+                </div>
+
+                <h4>Common Debugging Scenarios</h4>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Symptom</th>
+                            <th>What Record Replay Reveals</th>
+                            <th>Fix</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Tool returns null/undefined</td>
+                            <td>Field name mismatch (e.g., <code>productId</code> vs <code>product_id</code>)</td>
+                            <td>Update Function Generator parameter names to match</td>
+                        </tr>
+                        <tr>
+                            <td>Tool never receives data</td>
+                            <td>Empty array <code>[]</code></td>
+                            <td>Check input view is open on first Snap</td>
+                        </tr>
+                        <tr>
+                            <td>Wrong values extracted</td>
+                            <td>Agent misunderstood parameter requirements</td>
+                            <td>Improve Function Generator descriptions</td>
+                        </tr>
+                        <tr>
+                            <td>WHERE clause wrong</td>
+                            <td>LLM doesn't know valid field names</td>
+                            <td>Add field examples to prompt</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Development vs Production</h4>
+
+                <ul>
+                    <li><strong>Development</strong>: Keep Record Replay in "Record" mode to capture inputs for debugging</li>
+                    <li><strong>Testing</strong>: Switch to "Replay" mode to test with captured real data</li>
+                    <li><strong>Production</strong>: Remove or disable Record Replay to avoid performance overhead</li>
+                </ul>
+
+                <p><a href="https://docs.snaplogic.com/snaps/snaps-transform/snap-record-replay.html" class="doc-link" target="_blank">Record Replay Snap Reference</a></p>
+            </section>
+
+            <!-- Section 4.6: Exporting -->
+            <section id="m4-export">
+                <h3>4.6 Exporting and Sharing Logs</h3>
+
+                <p>Agent Visualizer lets you export logs for documentation, sharing with team members, or offline analysis.</p>
+
+                <h4>How to Export</h4>
+
+                <div class="step-box">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h5>Open Agent Visualizer</h5>
+                        <p>Access the visualizer from your Agent Snap after running the pipeline.</p>
+                    </div>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h5>Click the Download Icon</h5>
+                        <p>Look for the download icon in the visualizer toolbar.</p>
+                    </div>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h5>Save the Markdown File</h5>
+                        <p>The log exports as a <strong>Markdown file</strong> containing all REQUEST, REASONING, ACTION, and OUTPUT sections.</p>
+                    </div>
+                </div>
+
+                <h4>What's Included in the Export</h4>
+                <ul>
+                    <li>Complete step-by-step execution log</li>
+                    <li>All tool calls with parameters and results</li>
+                    <li>Error messages and stack traces (if any)</li>
+                    <li>Final agent output</li>
+                </ul>
+
+                <div class="pro-tip">
+                    <strong>Best Practice:</strong> When asking for help with an agent issue, export the visualizer log and share it. This gives others the full context needed to diagnose the problem.
+                </div>
+
+                <h4>Documentation Links</h4>
+                <ul>
+                    <li><a href="https://docs.snaplogic.com/agentcreator/agentvis/agentcreator-agent-visualizer-about.html" target="_blank">Agent Visualizer Overview</a></li>
+                    <li><a href="https://docs.snaplogic.com/agentcreator/agentcreator-troubleshooting.html" target="_blank">AgentCreator Troubleshooting Guide</a></li>
+                    <li><a href="https://docs.snaplogic.com/snaps/snaps-transform/snap-record-replay.html" target="_blank">Record Replay Snap Reference</a></li>
+                </ul>
+
+                <div class="callout callout-success">
+                    <div class="callout-title">Module 4 Complete!</div>
+                    <p>You now know how to debug agents effectively using:</p>
+                    <ul>
+                        <li>Agent Visualizer for high-level execution tracing</li>
+                        <li>Messages array analysis for detailed conversation flow</li>
+                        <li>Record Replay for capturing exact tool inputs</li>
+                        <li>Log export for sharing and documentation</li>
+                    </ul>
+                </div>
+            </section>
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- NEXT STEPS -->
+        <!-- ============================================================ -->
+        <section id="next-steps">
+            <h3>Next Steps: MCP (Model Context Protocol)</h3>
+
+            <p>Congratulations on completing the AgentCreator hands-on! In the next part of the bootcamp, we'll explore <strong>MCP (Model Context Protocol)</strong> - a standardized way to connect AI agents to tools and data sources.</p>
+
+            <div class="key-concept">
+                <h5>What's Next</h5>
+                <ul>
+                    <li>Understanding MCP architecture</li>
+                    <li>Connecting to MCP servers</li>
+                    <li>Building agents with external tool ecosystems</li>
+                </ul>
+            </div>
+
+            <div class="callout callout-info">
+                <div class="callout-title">Take a Break!</div>
+                <p>We'll reconvene in 10 minutes for the MCP portion of the bootcamp.</p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer style="margin-top: 60px; padding-top: 30px; border-top: 1px solid var(--border-color); text-align: center; color: var(--muted-text);">
+            <p>SnapLogic AgentCreator Bootcamp: Build AI Sales Agents</p>
+            <p>Version 1.0 | January 2026</p>
+            <p style="margin-top: 15px; font-size: 0.85rem;">
+                Live instructor-led workshop materials
+            </p>
+        </footer>
+    </main>
+
+    <!-- Initialize Mermaid -->
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+</body>
+</html>
